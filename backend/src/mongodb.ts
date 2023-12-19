@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
 
 export function connect() {
-    if (process.env.MONGODB_URI) {
-        mongoose.connect(process.env.MONGODB_URI).then(_ => {
-            console.log("Connected to db");
-        });
-    } else {
+    if (process.env.MONGODB_URI)
+        mongoose.connect(process.env.MONGODB_URI).then(_ => console.log("Connected to db"));
+    else
         console.error("MongoDB URL is missing");
-    }
 }
 
 export type Report = {
+    _id: mongoose.ObjectId,
     lotId: mongoose.Schema.Types.ObjectId,
     timestamp: number,
     categoryId: number,
@@ -30,7 +28,9 @@ export const Report = mongoose.model<Report>('Reports', new mongoose.Schema({
     }
 }));
 
-export type Lot = {};
+export type Lot = {
+    _id: mongoose.ObjectId
+};
 export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({}, {
     toJSON: {
         transform: (_: Document, ret: any) => ret._id
@@ -38,6 +38,7 @@ export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({}, {
 }));
 
 export type User = {
+    _id: mongoose.ObjectId,
     email: string,
     phoneNumber: string,
     passwordhash: string,
