@@ -1,33 +1,58 @@
-import React, { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import React from 'react';
 import './App.css';
-import Backend from './Api';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ROUTES from './Routes';
+import LandingPage from './pages/LandingPage';
+import FAQPage from './pages/FAQPage';
+import MyGardensPage from './pages/MyGardensPage';
+import EditAccountPage from './pages/EditAccountPage';
+import CreateReportPage from './pages/CreateReportPage';
+import PageLayout from './components/layout/PageLayout';
+import ReportCreatedPage from './pages/ReportCreatedPage';
+import SignPage from './pages/SignPage';
+import LoginPage from './pages/LoginScreen';
 
 function App() {
-  const [date, setDate] = useState<string>('');
-  const [text, setText] = useState<string>('');
-
   return (
-    <div className='App'>
-      <Button
-        variant='contained'
-        className='w-full'
-        onClick={() => Backend.getDate().then(date => setDate(date))}
-      >Get Date</Button>
-      <p>{date}</p>
-
-      <form method='get'>
-        <TextField
-          label='Some Text'
-          onChange={ (e) => setText(e.currentTarget.value) }
-        />
-        <Button
-          variant='contained'
-          className='w-full'
-          onClick={() => Backend.echo(text)}
-        >Submit</Button>
-      </form>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            key={ROUTES.LANDING}
+            path={ROUTES.LANDING}
+            element={<LoginPage/>}
+          />
+          <Route
+            key={ROUTES.FAQ}
+            path={ROUTES.FAQ}
+            element={<PageLayout children={<FAQPage/>}/>}
+          />
+          <Route
+            key={ROUTES.GARDENS}
+            path={ROUTES.GARDENS}
+            element={<PageLayout children={<MyGardensPage/>}/>}
+          />
+          <Route
+            key={ROUTES.ACCOUNT}
+            path={ROUTES.ACCOUNT}
+            element={<PageLayout children={<EditAccountPage/>}/>}
+          />
+          <Route
+            key={ROUTES.GARDEN}
+            path={`${ROUTES.GARDEN}:id`}
+            element={<PageLayout children={<SignPage/>}/>}
+          />
+          <Route
+            key={ROUTES.REPORTCREATED}
+            path={ROUTES.REPORTCREATED}
+            element={<PageLayout children={<ReportCreatedPage/>}/>}
+          />
+          <Route
+            key={ROUTES.REPORT}
+            path={`${ROUTES.REPORT}:id`}
+            element={<PageLayout children={<CreateReportPage/>}/>}
+          />
+        </Routes>
+      </BrowserRouter>
   );
 }
 
