@@ -2,7 +2,7 @@
  * Helper methods
  */
 
-import { AgricultureSharp, ChatBubbleOutlineSharp, ContentCutSharp, GrassSharp, PestControlSharp, WaterDropSharp } from "@mui/icons-material";
+import { AgricultureSharp, ChatBubbleOutlineSharp, ContentCutSharp, GrassSharp, PeopleSharp, PestControlSharp, ScheduleSharp, WaterDropSharp } from "@mui/icons-material";
 import { ReactNode } from "react";
 
 export const formatDate = (date: string) => {
@@ -28,6 +28,14 @@ export const iconMap = new Map<string, ReactNode>(
     ['Fertilization', <GrassSharp/>]
   ]
 );
+
+export const infoIconList = [<PeopleSharp fontSize="large"/>, <ScheduleSharp fontSize="large"/>, <GrassSharp fontSize="large"/>];
+export const infoTitleList = ['Gemeinschaft fördern', 'Effizienz steigern', 'Gartenqualiät verbessern']
+export const infoDescriptionList = [
+  "Verbinden Sie sich mit anderen Gartenliebhabern und arbeiten Sie gemeinsam an einem blühenden Gemeinschaftsgarten.",
+  "Sparen Sie Zeit und Mühe durch direktes Feedback und nützliche Tipps von Besuchern, ohne ständig vor Ort sein zu müssen.",
+  "Profitieren Sie von kollektivem Wissen und Erfahrung, um Ihren Garten optimal zu pflegen und zu gestalten."
+]
 
 export const textMap = new Map<string, string>(
   [
