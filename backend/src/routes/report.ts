@@ -1,20 +1,32 @@
 import express, { Router, Request, Response } from 'express';
-import { Report } from '../mongodb';
+import { Lot, Report, User } from '../db/mongodb';
+//import { sendEmail } from '../notifications/email';
 
 export const reportRouter: Router = express.Router();
 
 reportRouter.post('/', async (req: Request, res: Response) => {
-    console.log('/report POST');
+    // Check if lot exists
+    const lot = await Lot.findOne({ nr: req.body.lotNr }).populate('owner');
+    if (!lot)
+        return res.status(404).send();
 
-    console.log('req: ', JSON.stringify(req.body));
-
+    // Create new report and store it in the database
     const report = new Report({
         timestamp: +new Date(),
-        lotId: req.body.lotId,
-        categoryId: req.body.categoryId,
-        description: req.body.description
+        lotNr: req.body.lotNr,
+        category: req.body.category,
+        description: req.body.description,
+        viewed: false
     });
     await report.save();
 
-    return res.send(report);
+    // Send HTTP response
+    const response: Response = res.send(report);
+    
+    // Send an email if the user wants to recevie such
+    //const user = lot.owner as User;
+    //if (user.notify)
+    //    sendEmail(user.email, report);
+
+    return response;
 });

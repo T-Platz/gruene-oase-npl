@@ -7,7 +7,7 @@ import { lotRouter } from './src/routes/lot';
 import { userRouter } from './src/routes/user';
 import { reportRouter } from './src/routes/report';
 import { testRouter } from './src/routes/test';
-import { connect } from './src/mongodb';
+import { connect } from './src/db/mongodb';
 
 dotenv.config();
 connect();
