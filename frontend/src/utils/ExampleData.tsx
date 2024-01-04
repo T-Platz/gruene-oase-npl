@@ -93,3 +93,22 @@ export const parcels = [
         ]
     }
 ]
+
+export const communityGardens = [
+    {
+        id: "23ue32ux",
+        name: "ZAK Bewohnergarten"
+    },
+    {
+        id: "deek33",
+        name: "Perlacher Herz Garten"
+    },
+    {
+        id: "nxiwjio",
+        name: "Campus di Monaco x Kulturbunt Garten"
+    },
+    {
+        id: "vbniom",
+        name: "RKU + Seebauer"
+    }
+]

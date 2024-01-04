@@ -4,24 +4,28 @@ import AddGardenButton from "../components/buttons/AddGardenButton";
 import AllNotifications from "../components/other/AllNotifications";
 import { useState } from "react";
 import MessageDialog from "../components/dialogs/MessageDialog";
-import { parcels } from "../utils/ExampleData";
+import { communityGardens, parcels } from "../utils/ExampleData";
 import { useWindowDimensions } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { Navigate } from "react-router-dom";
 import ROUTES from "../Routes";
+import NewGardenDialog from "../components/dialogs/NewGardenDialog";
 
 
 function MyGardensPage() {
     // TODO: Check if user is authenticated
     const [messageDialogOpen, setMessageDialogOpen] = useState<boolean>(false);
+    const [gardenDialogOpen, setGardenDialogOpen] = useState<boolean>(false);
+
     const [garden, setGarden] = useState<string>("");
     const [message, setMessage] = useState<string>("");
-    const testGardens = parcels;
     const user = useSelector((state: RootState) => state.user);
-    console.log('User', user.email);
-
     const { height, width } = useWindowDimensions();
+
+    const testGardens = parcels;
+    const testCommunityGardens = communityGardens;
+
 
     const getAllNotifications = () => {
         let numberOfNotifications = 0;
@@ -47,6 +51,17 @@ function MyGardensPage() {
         setGarden("");
     }
 
+    const handleGardenConfirm = (gardenName: string, communityGardenId: string) => {
+        if(communityGardenId === "") {
+            //...
+        }
+        setGardenDialogOpen(false);
+    }
+
+    const closeGardenDialog = () => {
+        setGardenDialogOpen(false);
+    }
+
     // TODO: Function to get parcels, set notifications to seen...
 
     return (
@@ -59,7 +74,7 @@ function MyGardensPage() {
                     <Typography variant={width >= 640 ? "h3": "h4"} color='#057038'>Meine Gärten</Typography>
                     <AllNotifications number={getAllNotifications()}/>
                 </div>
-                <AddGardenButton onClick={() => {}}/>
+                <AddGardenButton onClick={() => {setGardenDialogOpen(true);}}/>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 sm:grid-cols-2 mt-8 mb-8">
                 {testGardens.map((element, index) => {
@@ -68,6 +83,7 @@ function MyGardensPage() {
             </div>
         </div>
         <MessageDialog open={messageDialogOpen} garden={garden} message={message} onClose={closeMessageDialog}/>
+        <NewGardenDialog open={gardenDialogOpen} handleClose={closeGardenDialog} handleConfirm={handleGardenConfirm} communityGardens={testCommunityGardens}/>
         </>
         }
         </>
