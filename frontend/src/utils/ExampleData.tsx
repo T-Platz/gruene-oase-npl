@@ -6,6 +6,9 @@ export const parcels = [
         garden: {
             name: "ZAK Bewohnergarten"
         },
+        user: {
+            email: "test@test.de",
+        },
         reports: [
             {
                 type: "Custom",
@@ -52,6 +55,9 @@ export const parcels = [
         garden: {
             name: "ZAK Bewohnergarten"
         },
+        user: {
+            email: "test@test.de",
+        },
         reports: [
             {
                 type: "Harvest",
@@ -71,6 +77,9 @@ export const parcels = [
         id: 1846541,
         name: "Salate",
         date: "2023-11-30T23:58:18Z",
+        user: {
+            email: "test@test.de",
+        },
         garden: {
             name: "ZAK Bewohnergarten"
         },

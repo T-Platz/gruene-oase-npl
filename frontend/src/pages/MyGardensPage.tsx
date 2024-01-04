@@ -6,6 +6,10 @@ import { useState } from "react";
 import MessageDialog from "../components/dialogs/MessageDialog";
 import { parcels } from "../utils/ExampleData";
 import { useWindowDimensions } from "react-native";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { Navigate } from "react-router-dom";
+import ROUTES from "../Routes";
 
 
 function MyGardensPage() {
@@ -14,6 +18,8 @@ function MyGardensPage() {
     const [garden, setGarden] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const testGardens = parcels;
+    const user = useSelector((state: RootState) => state.user);
+    console.log('User', user.email);
 
     const { height, width } = useWindowDimensions();
 
@@ -45,6 +51,8 @@ function MyGardensPage() {
 
     return (
         <>
+        {user.email === "" ? <Navigate to={ROUTES.LANDING}/> :
+        <>
         <div className="flex flex-col">
             <div className="flex flex-row w-full justify-between items-center">
                 <div className="flex flex-col">
@@ -60,6 +68,8 @@ function MyGardensPage() {
             </div>
         </div>
         <MessageDialog open={messageDialogOpen} garden={garden} message={message} onClose={closeMessageDialog}/>
+        </>
+        }
         </>
     );
 }
