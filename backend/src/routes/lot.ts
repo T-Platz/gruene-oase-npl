@@ -5,8 +5,6 @@ async function getLotNrCount(): Promise<number> {
     // Fetch counter from database
     const counter = await Counter.findOne();
     if (!counter) {
-        console.log('Counter does not exist yet');
-        
         await (new Counter().save());
         return 0;
     }
