@@ -15,7 +15,11 @@ connect();
 const app: Express = express();
 const port = process.env.PORT;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow frontend URL
+    methods: 'GET,POST,PUT,PATCH,DELETE',
+    credentials: true,
+}));
 app.use(express.json());
 
 if (process.env.JWT_SECRET) {

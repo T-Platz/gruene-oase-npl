@@ -94,11 +94,13 @@ lotRouter.post('/', async (req: Request, res: Response) => {
     if (!user)
         return res.sendStatus(404);
 
+
     // Create a new lot and add it to the user in the database
     const lotNr = generateLotNr(await getLotNrCount());
     const lot = new Lot({
         nr: lotNr,
         owner: user._id,
+        garden: req.body.garden,
         name: req.body.name,
         timestamp: +new Date()
     });

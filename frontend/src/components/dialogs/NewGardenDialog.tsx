@@ -109,7 +109,7 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, communityGarden
           >
             <MenuItem value="">-</MenuItem>
             {communityGardens.map((element, index) => {
-                return <MenuItem value={element.id}>{element.name}</MenuItem>;
+                return <MenuItem key={index} value={element.id}>{element.name}</MenuItem>;
             })}
           </Select>
         </FormControl>

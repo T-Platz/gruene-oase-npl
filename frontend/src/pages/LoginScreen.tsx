@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ROUTES from '../Routes';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
+import api from '../utils/ApiService';
 
 
 interface GreenOasisLogoProps {
@@ -43,6 +44,13 @@ const LoginScreen: React.FC = () => {
   const [getNotifications, setGetNotifications] = useState<boolean>(true);
   const dispatch = useDispatch();
 
+  interface User {
+    name: string;
+    email: string;
+    notify: boolean;
+    auth: string;
+  }
+
   const login = async (event: any) => {
     try {
         event.preventDefault();
@@ -60,10 +68,19 @@ const LoginScreen: React.FC = () => {
             noError = false;
         }
         if (noError) {
-            const credentials = {email: email, password: password, notifications: getNotifications};
+            const credentials = {email: email, password: password, notify: getNotifications};
 
-            // TODO: Insert login logic
-            dispatch(setUser({ email: "test@test.de" }))
+            const response = await api.post(register ? 'auth/register' : 'auth/login', {
+              body: JSON.stringify(credentials),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+            });
+            console.log('Response', response);
+            const user = await response.json() as User;
+            console.log('User', user);  
+
+            dispatch(setUser({ email: user.auth }))
             navigate(ROUTES.GARDENS);
         }
     } catch (e) {

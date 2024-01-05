@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { Box } from "@mui/material";
 import { setUser } from "../../redux/userSlice";
+import api from "../../utils/ApiService";
 
 
 const GreenOasisLogo = () => {
@@ -109,7 +110,19 @@ function Topbar () {
         },
     ];
 
-    const logout = () => {
+    const logout = async () => {
+        try {
+            const response = await api.post('auth/logout', {
+                
+                body: JSON.stringify({auth: user.email}),
+                headers: {
+                    'Authorization': `Bearer ${user.email}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+        catch(e) {
+        }
         dispatch(setUser({ email: "" }));
         navigate(ROUTES.LANDING);
     }
