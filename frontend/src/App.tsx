@@ -42,7 +42,7 @@ function App() {
             />
             <Route
               key={ROUTES.GARDEN}
-              path={`${ROUTES.GARDEN}:id`}
+              path={`${ROUTES.GARDEN}:lotNr`}
               element={<PageLayout children={<SignPage/>}/>}
             />
             <Route
@@ -52,7 +52,7 @@ function App() {
             />
             <Route
               key={ROUTES.REPORT}
-              path={`${ROUTES.REPORT}:id`}
+              path={`${ROUTES.REPORT}:lotNr`}
               element={<PageLayout children={<CreateReportPage/>}/>}
             />
           </Routes>

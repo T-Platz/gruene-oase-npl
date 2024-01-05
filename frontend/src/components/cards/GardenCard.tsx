@@ -2,11 +2,9 @@ import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from
 import { formatDate } from "../../utils/Common"
 import ROUTES from "../../Routes"
 import { Link, useNavigate } from "react-router-dom";
-import { renderToString } from "react-dom/server";
 import goSign from "../assets/images/GoSign.png";
 import ReportsList from "../lists/ReportsList";
-import jsPDF from "jspdf";
-import QRCode from "qrcode.react";
+import { Report } from "../../utils/Types";
 
 
 const GreenOasisSign = () => {
@@ -17,11 +15,14 @@ const GreenOasisSign = () => {
 }
 
 interface GardenCardProps {
-    id: number,
+    lotNr: number,
     name: string,
-    reports: any,
-    gardenName: string,
-    date: string,
+    reports?: Report[],
+    gardenName?: string,
+    date: Date,
+    issues: number,
+    getReports: (lotNr: number) => Promise<void>,
+    viewReports: (lotNr: number) => void,
     openMessage: (garden: string, message: string) => void
 }
 
@@ -36,20 +37,20 @@ function GardenCard(props: GardenCardProps) {
                         {props.name}
                     </Typography>
                     <Typography sx={{display: '-webkit-box', overflow: 'hidden', WebkitBoxOrient: 'vertical', WebkitLineClamp: 2}} variant="h6" component="div" color="text.secondary">
-                        {`#${props.id}`}
+                        {`#${props.lotNr.toString().padStart(4, '0')}`}
                     </Typography>
                     <Typography sx={{ mb: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} color="text.secondary">
-                        {props.gardenName}
+                        {props.gardenName || '\u00A0'}
                     </Typography>
                     <Divider sx={{marginBottom: 1.5}}/>
                     <Typography sx={{ mb: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} color="text.secondary">
                         {`Hinzugefügt am: ${formatDate(props.date)}`}
                     </Typography>
                     <Divider sx={{marginBottom: 1.5}}/>
-                    <ReportsList garden={props.name} reports={props.reports} openMessage={props.openMessage} />
+                    <ReportsList garden={props.name} issues={props.issues} lotNr={props.lotNr} reports={props.reports} openMessage={props.openMessage} getReports={props.getReports} viewReports={props.viewReports}/>
                 </CardContent>
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <div onClick={() => { navigate(`${ROUTES.GARDEN}${props.id}`); }} className="flex flex-col items-center cursor-pointer">
+                    <div onClick={() => { navigate(`${ROUTES.GARDEN}${props.lotNr}`); }} className="flex flex-col items-center cursor-pointer">
                         <GreenOasisSign/>
                         <Button size="small">Schild anzeigen</Button>
                     </div>

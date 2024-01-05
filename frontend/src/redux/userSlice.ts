@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
-  email: string;
+  token: string;
 }
 
 const initialState: UserState = {
-  email: '',
+  token: '',
 };
 
 const userSlice = createSlice({
@@ -13,7 +13,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<UserState>) {
-      state.email = action.payload.email;
+      state.token = action.payload.token;
     },
   },
 });

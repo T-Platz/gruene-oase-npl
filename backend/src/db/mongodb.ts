@@ -26,7 +26,7 @@ export const Report = mongoose.model<Report>('Reports', new mongoose.Schema({
     lotNr: { type: Number, required: true },
     timestamp: { type: Number, required: true },
     category: { type: String, enum: Object.values(ReportCategory), required: true },
-    description: { type: String, required: true },
+    description: { type: String, required: false },
     viewed: { type: Boolean, required: true }
 }, {
     toJSON: {
@@ -37,16 +37,29 @@ export const Report = mongoose.model<Report>('Reports', new mongoose.Schema({
     }
 }));
 
+export type Garden = {
+    _id: mongoose.ObjectId,
+    name: string
+}
+
+export const Garden = mongoose.model<Garden>('Gardens', new mongoose.Schema({
+    name: { type: String, required: true}
+}));
+
+
 export type Lot = {
     _id: mongoose.ObjectId,
     nr: number,
     owner: mongoose.ObjectId | User,
+    garden: mongoose.ObjectId | Garden,
     name: string,
     timestamp: number
 };
+
 export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({
     nr: { type: Number, required: true, unique: true },
     owner: { type: mongoose.Types.ObjectId, ref: 'Users', required: true },
+    garden: { type: mongoose.Types.ObjectId, ref: "Gardens", requried: false},
     name: { type: String, required: true },
     timestamp: { type: Number, required: true }
 }, {
@@ -57,6 +70,7 @@ export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({
         }
     }
 }));
+
 
 export type Counter = {
     _id: mongoose.ObjectId,

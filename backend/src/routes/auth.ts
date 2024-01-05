@@ -5,11 +5,11 @@ import { User } from '../db/mongodb';
 
 export type JwtPayload = { userId: string };
 
-function generateAccessToken(payload: JwtPayload): string {
+function generateAccessToken(payload: JwtPayload, logout: boolean): string {
     if (!process.env.JWT_SECRET)
         throw new Error('JWT_SECRET is empty');
     
-    return sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
+    return sign(payload, process.env.JWT_SECRET, { expiresIn: logout ? '0s' : '2h' });
 }
 
 export const authRouter: Router = express.Router();
@@ -30,8 +30,15 @@ authRouter.post('/login', async (req: Request, res: Response) => {
 
     // Send JWT token
     const JwtPayload: JwtPayload = { userId: user._id.toString() };
+    const token = generateAccessToken(JwtPayload, false);
+    res.cookie("jwt", token, {
+        httpOnly: true, sameSite: "strict", maxAge: 2 * 60 * 60 * 1000,
+    });
+
     return res.send({
-        token: generateAccessToken(JwtPayload)
+        id: user._id,
+        email: user.email,
+        auth: token
     });
 });
 
@@ -59,9 +66,29 @@ authRouter.post('/register', async (req: Request, res: Response) => {
     // Send JWT token
     const JwtPayload: JwtPayload = { userId: newUser._id.toString() };
     return res.send({
-        token: generateAccessToken(JwtPayload)
+        token: generateAccessToken(JwtPayload, false)
     });
 });
+
+
+// logs out a user
+authRouter.post("/logout", async (req: Request, res: Response) => {
+    console.log('/auth/logout POST');
+    // Check auth
+    if (!req.auth)
+        return res.sendStatus(403);
+
+    // Check if user exists
+    const user = await User.findById(req.auth.userId);
+    if (!user)
+        return res.sendStatus(404);
+    // Send expired JWT token
+    const JwtPayload: JwtPayload = { userId: user._id.toString() };
+    return res.send({
+        token: generateAccessToken(JwtPayload, true)
+    });
+});
+
 
 authRouter.head('/verify', (req: Request, res: Response) => {
     // Used by clients to check if their token is valid (e.g. after opening

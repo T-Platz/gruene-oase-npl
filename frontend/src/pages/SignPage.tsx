@@ -11,7 +11,7 @@ import { RootState } from '../redux/store';
 
 const SignPage: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { id } = useParams();
+  const { lotNr } = useParams();
   const user = useSelector((state: RootState) => state.user);
 
   const GreenOasisLogo = () => {
@@ -30,7 +30,7 @@ const SignPage: React.FC = () => {
     if (componentRef.current) {
       pdf.html(componentRef.current, {
         callback: (doc) => {
-          doc.save('myComponent.pdf');
+          doc.save(`schild-gartem${lotNr?.toString().padStart(4, '0')}.pdf`);
         },
         x: 0,
         y: 0,
@@ -43,7 +43,7 @@ const SignPage: React.FC = () => {
 
   return (
     <>
-    {user.email === "" ? <Navigate to={ROUTES.LANDING}/> :
+    {user.token === "" ? <Navigate to={ROUTES.LANDING}/> :
     <div className="flex flex-col justify-between items-center w-full mb-8">
       <div className="flex justify-center w-full items-center mb-4">
         <DownloadPDFButton onClick={downloadPdf}/>
@@ -52,10 +52,10 @@ const SignPage: React.FC = () => {
         <div className='flex justify-center w-full h-28 bg-goDark items-center'><GreenOasisLogo/></div>
         <Typography variant='h4' color='#057038' align='center' sx={{padding: 2}}>Ihre Meldung für einen blühenden Garten!</Typography>
         <Typography variant='body2' align='center' sx={{padding: 2, paddingTop: 0, paddingBottom: 4}}>Nutzen Sie den <strong>QR-Code</strong> oder wählen Sie die angezeigte <strong>Nummer</strong>, um <strong>Probleme</strong> zu melden, hilfreiche <strong>Tipps</strong> zu teilen oder dem Gärtner eine <strong>Nachricht</strong> zu senden.<br />Ihr Beitrag macht den Unterschied und hilft, unseren Garten gemeinsam zu verschönern!</Typography>
-        <QRCode size={200} value={`http://localhost:3000${ROUTES.REPORT}${id}`} />
+        <QRCode size={200} value={`http://localhost:3000${ROUTES.REPORT}${lotNr}`} />
         <Typography variant='h5'  color='#057038' align='center' sx={{padding: 4}}>oder</Typography>
         <Typography variant='h4'><strong>089/8282189</strong></Typography>
-        <Typography variant='h5' color='#424242'>{`(Garten:  ${id})`}</Typography>
+        <Typography variant='h5' color='#424242'>{`(Garten:  ${lotNr?.toString().padStart(4, '0')})`}</Typography>
         <div className="flex flex-1 bg-goDark w-full mt-12"/>
       </div>
     </div>}

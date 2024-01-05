@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Divider, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
+import api from '../../utils/ApiService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import BallLoader from '../loaders/BallLoader';
 
 interface CommunityGarden {
-    id: string,
+    _id: string,
     name: string
 }
 
 interface NewGardenDialogProps {
   open: boolean;
-  communityGardens: CommunityGarden[],
   handleClose: () => void;
   handleConfirm: (name: string, gardenId: string) => void;
 }
 
-const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, communityGardens, handleClose, handleConfirm }) => {
+interface GardensResponse {
+    gardens: CommunityGarden[]
+  }
+
+
+
+const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, handleConfirm }) => {
   const [gardenName, setGardenName] = useState('');
   const [communityGarden, setCommunityGarden] = useState('');
+  const [communityGardens, setCommunityGardens] = useState<CommunityGarden[]>([]);
+  const [communityGardensLoaded, setCommunityGardensLoaded] = useState<boolean>(false);
+  const user = useSelector((state: RootState) => state.user);
 
   const disabled = gardenName.length > 0 && gardenName.length < 5;
+
+  useEffect(() => {
+    api.get('lot/gardens', {
+        headers: {
+            'Authorization': `Bearer ${user.token}`,
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        response.json().then(json => {
+            setCommunityGardens((json as GardensResponse).gardens); 
+            setCommunityGardensLoaded(true); 
+            console.log(json);
+        })
+    });
+  }, []);
 
   return (
     <Dialog sx={{
@@ -72,6 +99,7 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, communityGarden
             marginBottom: 2
         }}
         />
+        {communityGardensLoaded? 
         <FormControl fullWidth margin="dense" variant="outlined">
           <InputLabel
             id="community-garden-label"
@@ -109,10 +137,10 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, communityGarden
           >
             <MenuItem value="">-</MenuItem>
             {communityGardens.map((element, index) => {
-                return <MenuItem value={element.id}>{element.name}</MenuItem>;
+                return <MenuItem key={index} value={element._id}>{element.name}</MenuItem>;
             })}
           </Select>
-        </FormControl>
+        </FormControl> : <BallLoader/>}
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', marginBottom: 2 }}>
         <Button 
