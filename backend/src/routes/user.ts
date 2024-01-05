@@ -11,7 +11,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
         return res.status(403).send();
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate('lots');
+    const user = await User.findById(req.auth.userId).populate([{ path: 'lots', populate: [{path: 'garden'}] }]);
     if (!user)
         return res.status(404).send();
 
@@ -26,7 +26,7 @@ userRouter.patch('/', async (req: Request, res: Response) => {
         return res.status(403).send();
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate('lots');
+    const user = await User.findById(req.auth.userId).populate([{ path: 'lots', populate: [{path: 'garden'}] }]);
     if (!user)
         return res.status(404).send();
 

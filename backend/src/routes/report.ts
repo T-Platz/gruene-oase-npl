@@ -5,6 +5,7 @@ import { Lot, Report, User } from '../db/mongodb';
 export const reportRouter: Router = express.Router();
 
 reportRouter.post('/', async (req: Request, res: Response) => {
+    console.log('/report POST');
     // Check if lot exists
     const lot = await Lot.findOne({ nr: req.body.lotNr }).populate('owner');
     if (!lot)

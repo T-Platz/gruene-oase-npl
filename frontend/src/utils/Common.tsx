@@ -5,9 +5,9 @@
 import { AgricultureSharp, ChatBubbleOutlineSharp, ContentCutSharp, GrassSharp, PeopleSharp, PestControlSharp, ScheduleSharp, WaterDropSharp } from "@mui/icons-material";
 import { ReactNode } from "react";
 
-export const formatDate = (date: string) => {
+export const formatDate = (date: Date) => {
     // Date formated to english 
-    return new Date(date).toLocaleString('de-DE', {
+    return date.toLocaleString('de-DE', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

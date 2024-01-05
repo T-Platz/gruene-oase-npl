@@ -80,7 +80,7 @@ const LoginScreen: React.FC = () => {
             const user = await response.json() as User;
             console.log('User', user);  
 
-            dispatch(setUser({ email: user.auth }))
+            dispatch(setUser({ token: user.auth }))
             navigate(ROUTES.GARDENS);
         }
     } catch (e) {

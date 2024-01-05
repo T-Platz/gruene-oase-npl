@@ -8,6 +8,7 @@ import { notificationTypes } from "../utils/Common";
 import NotificationCard from "../components/cards/NotificationCard";
 import { useWindowDimensions } from "react-native";
 import SendNotificationButton from "../components/buttons/SendNotificationButton";
+import api from "../utils/ApiService";
 
 function CreateReportPage() {
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
@@ -16,7 +17,7 @@ function CreateReportPage() {
     const [selectedNotification, setSelectedNotification] = useState<number>(-1);
     const [message, setMessage] = useState<string>("");
 
-    const { id } = useParams();
+    const { lotNr } = useParams();
     const navigate = useNavigate();
     const {height, width} = useWindowDimensions();
 
@@ -25,10 +26,16 @@ function CreateReportPage() {
             setGardenExists(true);
             setFullyLoaded(true);
         }
-    }, [id])
+    }, [lotNr])
 
-    const createReport = () => {
-        // TODO: Create report by calling endpoint
+    const createReport = async () => {
+        const report = {lotNr: lotNr, category: notificationTypes[selectedNotification], description: message};
+        api.post('report', {
+            body: JSON.stringify(report),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
         navigate(ROUTES.REPORTCREATED);
     }
 
@@ -44,7 +51,7 @@ function CreateReportPage() {
                         <Typography variant={width >= 640 ? "h6": "body1"} sx={{color: gardenExists ? '#97d045' : '#e55523', paddingLeft:  width >= 640 ? '8px' : null}}>{gardenExists? 'Teilen Sie die Probleme mit diesem Garten mit oder geben Sie Tipps!' : 'Dieser Garten existert nicht.'}</Typography>
                     </div>
                 </div>
-                <SendNotificationButton smallScreen={width < 640} disabled={selectedNotification === -1} onClick={() => {}}/>
+                <SendNotificationButton smallScreen={width < 640} disabled={selectedNotification === -1} onClick={() => {createReport();}}/>
             </div>
             <div className="mt-8 mb-8">
                 {notificationTypes.map((element, index) => {

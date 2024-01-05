@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, Divider, Typography } from "@mui/material";
 interface MessageDialogProps {
     open: boolean,
     message: string,
-    garden: string,
+    lot: string,
     onClose: (value: string) => void,
 }
 
@@ -15,7 +15,7 @@ function MessageDialog(props: MessageDialogProps) {
                 <Typography variant="h6">
                 Nachricht zu ihrem Garten
                 <br />
-                <strong>{`${props.garden}`}</strong> {/* The second line in bold */}
+                <strong>{`${props.lot}`}</strong> {/* The second line in bold */}
                 </Typography>
             </DialogTitle>
             <Divider sx={{marginBottom: 1.5}}/>

@@ -105,7 +105,7 @@ function Topbar () {
           href: ROUTES.FAQ,
         },
         {
-          name: user.email === "" ? 'Login' : 'Logout',
+          name: user.token === "" ? 'Login' : 'Logout',
           href: ROUTES.LANDING,
         },
     ];
@@ -113,17 +113,15 @@ function Topbar () {
     const logout = async () => {
         try {
             const response = await api.post('auth/logout', {
-                
-                body: JSON.stringify({auth: user.email}),
                 headers: {
-                    'Authorization': `Bearer ${user.email}`,
+                    'Authorization': `Bearer ${user.token}`,
                     'Content-Type': 'application/json'
                 }
             });
         }
         catch(e) {
         }
-        dispatch(setUser({ email: "" }));
+        dispatch(setUser({ token: "" }));
         navigate(ROUTES.LANDING);
     }
 

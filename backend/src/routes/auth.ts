@@ -9,7 +9,7 @@ function generateAccessToken(payload: JwtPayload, logout: boolean): string {
     if (!process.env.JWT_SECRET)
         throw new Error('JWT_SECRET is empty');
     
-    return sign(payload, process.env.JWT_SECRET, { expiresIn: logout ? '0s' : '30d' });
+    return sign(payload, process.env.JWT_SECRET, { expiresIn: logout ? '0s' : '2h' });
 }
 
 export const authRouter: Router = express.Router();
