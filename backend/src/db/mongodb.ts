@@ -7,18 +7,25 @@ export function connect() {
         console.error('MongoDB URL is missing');
 }
 
+export enum ReportCategory {
+    MESSAGE = 'message',
+    WATER = 'water',
+    PEST = 'pest',
+    HARVEST = 'harvest',
+}
+
 export type Report = {
     _id: mongoose.ObjectId,
     lotNr: number,
     timestamp: number,
-    category: string,
+    category: ReportCategory,
     description: string,
     viewed: boolean
 };
 export const Report = mongoose.model<Report>('Reports', new mongoose.Schema({
     lotNr: { type: Number, required: true },
     timestamp: { type: Number, required: true },
-    category: { type: String, required: true },
+    category: { type: String, enum: Object.values(ReportCategory), required: true },
     description: { type: String, required: true },
     viewed: { type: Boolean, required: true }
 }, {

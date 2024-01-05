@@ -23,7 +23,7 @@ if (process.env.JWT_SECRET) {
         secret: process.env.JWT_SECRET,
         algorithms: ['HS256'],
     }).unless({
-        path: ['/auth/login', '/auth/register', '/report', '/test']
+        path: ['/auth/login', '/auth/register', '/report', '/test/email']
     }));
 }
 

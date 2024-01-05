@@ -1,18 +1,20 @@
 import express, { Router, Request, Response } from 'express';
+import { sendEmail } from '../notifications/email';
+import { Report, ReportCategory } from '../db/mongodb';
 
 export const testRouter: Router = express.Router();
 
-testRouter.get('/date', (req: Request, res: Response) => {
-    console.log('/test/date GET');
-    return res.send({
-        date: (new Date()).toISOString()
-    });
-});
-
-testRouter.post('/echo', async (req: Request, res: Response) => {
-    console.log('/test/echo POST');
+testRouter.post('/email', async (req: Request, res: Response) => {
+    console.log('/test/email POST');
     
-    console.log('Body: ', JSON.stringify(req.body));
+    const report = new Report({
+        lotNr: 1234,
+        timestamp: 1704465199,
+        category: ReportCategory.WATER,
+        description: '',
+        viewed: false
+    });
+    sendEmail('', report);
 
-    return res.send(req.body);
+    return res.send();
 });
