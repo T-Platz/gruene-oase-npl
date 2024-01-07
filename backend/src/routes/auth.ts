@@ -31,8 +31,8 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     // Send JWT token
     const JwtPayload: JwtPayload = { userId: user._id.toString() };
     const token = generateAccessToken(JwtPayload, false);
-    res.cookie("jwt", token, {
-        httpOnly: true, sameSite: "strict", maxAge: 2 * 60 * 60 * 1000,
+    res.cookie('jwt', token, {
+        httpOnly: true, sameSite: 'strict', maxAge: 2 * 60 * 60 * 1000,
     });
 
     return res.send({
@@ -65,15 +65,22 @@ authRouter.post('/register', async (req: Request, res: Response) => {
 
     // Send JWT token
     const JwtPayload: JwtPayload = { userId: newUser._id.toString() };
+    const token = generateAccessToken(JwtPayload, false);
+    res.cookie('jwt', token, {
+        httpOnly: true, sameSite: 'strict', maxAge: 2 * 60 * 60 * 1000,
+    });
+
     return res.send({
-        token: generateAccessToken(JwtPayload, false)
+        id: newUser._id,
+        email: newUser.email,
+        auth: token
     });
 });
 
 
-// logs out a user
-authRouter.post("/logout", async (req: Request, res: Response) => {
+authRouter.post('/logout', async (req: Request, res: Response) => {
     console.log('/auth/logout POST');
+
     // Check auth
     if (!req.auth)
         return res.sendStatus(403);
@@ -82,10 +89,18 @@ authRouter.post("/logout", async (req: Request, res: Response) => {
     const user = await User.findById(req.auth.userId);
     if (!user)
         return res.sendStatus(404);
+
     // Send expired JWT token
     const JwtPayload: JwtPayload = { userId: user._id.toString() };
+    const token = generateAccessToken(JwtPayload, true);
+    res.cookie('jwt', token, {
+        httpOnly: true, sameSite: 'strict', maxAge: 2 * 60 * 60 * 1000,
+    });
+
     return res.send({
-        token: generateAccessToken(JwtPayload, true)
+        id: user._id,
+        email: user.email,
+        auth: token
     });
 });
 
