@@ -47,7 +47,10 @@ function ReportsList(props: ReportsListProps) {
                 <div className="flex flex-row items-center">
                     {props.issues > 0 ? <ReportProblemSharp sx={{color: '#e55523', paddingRight: '4px'}}/> : <Check sx={{color: '#97d045', paddingRight: '4px'}}/>}
                     <Typography variant="h6" sx={{backgroundColor: "#F5F5F5"}}>
-                        {`${props.issues} neue Meldungen!`}
+                        {
+                            props.issues === 1 ? '1 neue Meldung!' :
+                            `${props.issues} neue Meldungen`
+                        }
                     </Typography>
                 </div>
                 {!expanded? <KeyboardArrowDownSharp sx={{backgroundColor: '#F5F5F5'}}/> : <KeyboardArrowUpSharp sx={{backgroundColor: '#F5F5F5'}}/>}

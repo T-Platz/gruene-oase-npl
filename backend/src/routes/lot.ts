@@ -27,9 +27,9 @@ type LotNr = string | number;
 
 function lotNrToPaddedString(lotNr: LotNr): string {
     if (typeof lotNr === 'string')
-        return lotNr.padStart(5, '0');
+        return lotNr.padStart(4, '0');
     else
-        return lotNr.toString().padStart(5, '0');
+        return lotNr.toString().padStart(4, '0');
 }
 
 function lotNrsEqual(a: LotNr, b: LotNr): boolean {
