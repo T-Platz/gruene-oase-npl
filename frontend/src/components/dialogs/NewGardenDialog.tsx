@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Divider, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
 import api from '../../utils/ApiService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import BallLoader from '../loaders/BallLoader';
+import { setUser } from '../../redux/userSlice';
+import ROUTES from '../../Routes';
+import { Navigate } from 'react-router-dom';
 
 interface CommunityGarden {
     _id: string,
@@ -28,25 +31,32 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
   const [communityGardens, setCommunityGardens] = useState<CommunityGarden[]>([]);
   const [communityGardensLoaded, setCommunityGardensLoaded] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const disabled = gardenName.length > 0 && gardenName.length < 5;
 
   useEffect(() => {
-    api.get('lot/gardens', {
-        headers: {
-            'Authorization': `Bearer ${user.token}`,
-            'Content-Type': 'application/json'
-        }
-    }).then(response => {
-        response.json().then(json => {
-            setCommunityGardens((json as GardensResponse).gardens); 
-            setCommunityGardensLoaded(true); 
-            console.log(json);
-        })
-    });
+    try {
+        api.get('lot/gardens', {
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            response.json().then(json => {
+                setCommunityGardens((json as GardensResponse).gardens); 
+                setCommunityGardensLoaded(true); 
+                console.log(json);
+            })
+        });
+    } catch (error) {
+        dispatch(setUser({token: ""}));
+    }
   }, []);
 
   return (
+    <>
+    {user.token === "" ? <Navigate to={ROUTES.LANDING}/> :
     <Dialog sx={{
         '& .MuiDialog-paper': {
             width: '100%', // Full width on smaller screens
@@ -166,6 +176,8 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
         </Button>
       </DialogActions>
     </Dialog>
+    }
+    </>
   );
 };
 

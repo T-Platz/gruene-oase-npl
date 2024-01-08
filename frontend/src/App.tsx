@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ROUTES from './Routes';
 import FAQPage from './pages/FAQPage';
 import MyGardensPage from './pages/MyGardensPage';
@@ -54,6 +54,11 @@ function App() {
               key={ROUTES.REPORT}
               path={`${ROUTES.REPORT}:lotNr`}
               element={<PageLayout children={<CreateReportPage/>}/>}
+            />
+            <Route
+              key={"*"}
+              path='*'
+              element={<Navigate to={ROUTES.LANDING}/>}
             />
           </Routes>
         </BrowserRouter>

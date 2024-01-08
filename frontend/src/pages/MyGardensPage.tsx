@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import MessageDialog from "../components/dialogs/MessageDialog";
 import { communityGardens, parcels } from "../utils/ExampleData";
 import { useWindowDimensions } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { Navigate } from "react-router-dom";
 import ROUTES from "../Routes";
@@ -14,6 +14,7 @@ import NewGardenDialog from "../components/dialogs/NewGardenDialog";
 import api from "../utils/ApiService";
 import BallLoader from "../components/loaders/BallLoader";
 import { IssuesResponse, Lot, ReportsResponse, User, UserResponse } from "../utils/Types";
+import { setUser } from "../redux/userSlice";
 
 function MyGardensPage() {
     // TODO: Check if user is authenticated
@@ -28,33 +29,38 @@ function MyGardensPage() {
 
     const user = useSelector((state: RootState) => state.user);
     const { height, width } = useWindowDimensions();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         loadLots();
     }, []);
 
     const loadLots = async () => {
-        const userResponse = await api.get('user', {
-            headers: {
-                'Authorization': `Bearer ${user.token}`,
-                'Content-Type': 'application/json'
-            },
-        }).json() as UserResponse;
-        const lots: Lot[] = userResponse.user.lots;
-        let totalIssues = 0;
-        for(const lot of lots) {
-            const issuesResponse: IssuesResponse = await api.get(`lot/issues?lotNr=${lot.nr}`, {
+        try {
+            const userResponse = await api.get('user', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
                     'Content-Type': 'application/json'
                 },
-            }).json() as IssuesResponse;
-            lot.issues = issuesResponse.issues;
-            totalIssues += issuesResponse.issues;
+            }).json() as UserResponse;
+            const lots: Lot[] = userResponse.user.lots;
+            let totalIssues = 0;
+            for(const lot of lots) {
+                const issuesResponse: IssuesResponse = await api.get(`lot/issues?lotNr=${lot.nr}`, {
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).json() as IssuesResponse;
+                lot.issues = issuesResponse.issues;
+                totalIssues += issuesResponse.issues;
+            }
+            setTotalIssues(totalIssues);
+            setLots(lots.sort((a, b) =>  b.timestamp - a.timestamp ));
+            setLotsLoaded(true);
+        } catch(error) {
+            dispatch(setUser({token: ""}));
         }
-        setTotalIssues(totalIssues);
-        setLots(lots.sort((a, b) =>  b.timestamp - a.timestamp ));
-        setLotsLoaded(true);
     }
 
     const getReports = async (lotNr: number) => {
