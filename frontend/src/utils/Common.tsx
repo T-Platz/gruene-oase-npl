@@ -36,11 +36,11 @@ export const iconMap: { [key in ReportCategory]: ReactNode } = {
 };
 export const textMap: { [key in ReportCategory]: string } = {
     [ReportCategory.MESSAGE]: 'Nachricht',
-    [ReportCategory.WATER]: 'Pfalnze grießen!',
-    [ReportCategory.HARVEST]: 'Bereit für die Ernte!',
-    [ReportCategory.PRUNE]: 'Pflanze trimmen!',
-    [ReportCategory.FERTILIZE]: 'Planze düngen!',
-    [ReportCategory.PEST]: 'Achtung Schädling!'
+    [ReportCategory.WATER]: 'Pfalnze gießen',
+    [ReportCategory.HARVEST]: 'Bereit für die Ernte',
+    [ReportCategory.PRUNE]: 'Pflanze trimmen',
+    [ReportCategory.FERTILIZE]: 'Planze düngen',
+    [ReportCategory.PEST]: 'Achtung Schädling'
 };
 export const descriptionMap: { [key in ReportCategory]: string } = {
     [ReportCategory.MESSAGE]: 'Kontakt aufnehmen - Geben Sie Tipps oder beschreiben Sie Probleme!',
