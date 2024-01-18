@@ -49,7 +49,7 @@ const SignPage: React.FC = () => {
             <Typography variant='h5' color='#057038' align='center' sx={{ paddingTop: 8 }}>Ihre Meldung für einen blühenden Garten!</Typography>
           </div>
           <div className='justify-center' style={{ float: 'left', width: '50%' }}>
-            <QRCode size={250} value={`http://localhost:3000${ROUTES.REPORT}${lotNr}`} />
+            <QRCode size={250} value={`http://gruene-oase-npl.de${ROUTES.REPORT}${lotNr}`} />
           </div>
         </div>
         <Typography variant='h4' style={{ position: 'absolute', bottom: '0' }}><strong>{`Garten: ${lotNr?.toString().padStart(4, '0')}`}</strong></Typography>
