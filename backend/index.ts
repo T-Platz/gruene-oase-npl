@@ -6,7 +6,6 @@ import { authRouter } from './src/routes/auth';
 import { lotRouter } from './src/routes/lot';
 import { userRouter } from './src/routes/user';
 import { reportRouter } from './src/routes/report';
-import { testRouter } from './src/routes/test';
 import { connect } from './src/db/mongodb';
 
 dotenv.config();
@@ -35,7 +34,6 @@ app.use('/auth', authRouter);
 app.use('/lot', lotRouter);
 app.use('/user', userRouter);
 app.use('/report', reportRouter);
-app.use('/test', testRouter);
 
 app.listen(port, () => {
     console.log(`Backend server is running at http://localhost:${port}`);
