@@ -50,7 +50,9 @@ function CreateReportPage() {
                         <Typography variant={width >= 640 ? 'h6': 'body1'} sx={{color: gardenExists ? '#97d045' : '#e55523', paddingLeft:  width >= 640 ? '8px' : null}}>{gardenExists? 'Teilen Sie die Probleme mit diesem Garten mit oder geben Sie Tipps!' : 'Dieser Garten existert nicht.'}</Typography>
                     </div>
                 </div>
-                <SendNotificationButton smallScreen={width < 640} disabled={selectedCategory === null} onClick={() => {createReport();}}/>
+                <SendNotificationButton smallScreen={width < 640} disabled={
+                    selectedCategory === null || (selectedCategory === ReportCategory.MESSAGE && message === '')
+                } onClick={() => {createReport();}}/>
             </div>
             <div className='mt-8 mb-8'>
                 {Object.values(ReportCategory).map(category => {
