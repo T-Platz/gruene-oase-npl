@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, TextField, Typography } from "@mui/material";
-import { ReportCategory, descriptionMap, iconMap, textMap } from "../../utils/Common";
+import { Box, Card, CardContent, TextField, Typography } from '@mui/material';
+import { ReportCategory, descriptionMap, iconMap, textMap } from '../../utils/Common';
 
 interface NotificationCardProps {
     category: ReportCategory, 
@@ -35,20 +35,20 @@ function NotificationCard (props: NotificationCardProps) {
                 onClick={() => {props.setSelected(props.isSelected ? null : props.category);}}
             >
                 <CardContent>
-                    <div className="flex flex-col">
-                        <div className="flex flex-row justify-start items-center">
+                    <div className='flex flex-col'>
+                        <div className='flex flex-row justify-start items-center'>
                             <div>{iconMap[props.category]}</div>
-                            <div className="flex flex-col px-4">
-                                <Typography variant="h6">{
+                            <div className='flex flex-col px-4'>
+                                <Typography variant='h6'>{
                                     textMap[props.category]}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant='body2' color='text.secondary'>
                                     {descriptionMap[props.category]}
                                 </Typography>
                             </div>
                         </div>
                         {props.category === ReportCategory.MESSAGE ? 
-                            <div className="w-full mt-4">
+                            <div className='w-full mt-4'>
                             <TextField
                                 fullWidth
                                 sx={{
@@ -69,10 +69,10 @@ function NotificationCard (props: NotificationCardProps) {
                                     backgroundColor: 'white',
                                     margin: 1
                                 }}
-                                label="Schreiben Sie hier Ihre Nachricht"
+                                label='Schreiben Sie hier Ihre Nachricht'
                                 value={props.message}
                                 multiline
-                                variant="outlined"
+                                variant='outlined'
                                 onClick={(event) => {if(props.isSelected) { event.stopPropagation();}}}
                                 onChange={(event) => {props.setMessage(event.target.value);}}
                             />

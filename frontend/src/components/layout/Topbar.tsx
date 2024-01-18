@@ -1,12 +1,12 @@
-import { useWindowDimensions } from "react-native";
-import ROUTES from "../../Routes";
-import { Link, useNavigate } from "react-router-dom";
+import { useWindowDimensions } from 'react-native';
+import ROUTES from '../../Routes';
+import { Link, useNavigate } from 'react-router-dom';
 import greenOasisLogoText from '../assets/images/GrüneOaseLogoText.png';
-import greenOasisLogo from "../assets/images/GrüneOaseLogo.jpeg";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { setUser } from "../../redux/userSlice";
-import api from "../../utils/ApiService";
+import greenOasisLogo from '../assets/images/GrüneOaseLogo.jpeg';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setUser } from '../../redux/userSlice';
+import api from '../../utils/ApiService';
 
 
 const GreenOasisLogo = () => {
@@ -14,7 +14,7 @@ const GreenOasisLogo = () => {
 
     return (
         <Link to={ROUTES.GARDENS}>
-            <img className="object-cover h-28" src={width >= 800 ? greenOasisLogoText : greenOasisLogo}>
+            <img className='object-cover h-28' src={width >= 800 ? greenOasisLogoText : greenOasisLogo}>
             </img>
         </Link>
     )
@@ -22,11 +22,11 @@ const GreenOasisLogo = () => {
 
 const DesktopMenu: React.FC<{ routes: any[]; logout: ()=>void}> = ({routes, logout}) => {
     return (
-        <div className="flex flex-row items-center justify-end flex-auto mr-4 md:mx-4 sm:flex flex-nowrap md:space-x-8">
+        <div className='flex flex-row items-center justify-end flex-auto mr-4 md:mx-4 sm:flex flex-nowrap md:space-x-8'>
         {
             // Render elements of 'routes' array
             routes.map((element, index) => {
-                if(index === 1 && element.name === "Logout") {
+                if(index === 1 && element.name === 'Logout') {
                     return (
                         <div
                             className='cursor-pointer transition box-border px-4 py-2 rounded-md
@@ -60,14 +60,14 @@ const DesktopMenu: React.FC<{ routes: any[]; logout: ()=>void}> = ({routes, logo
 const MobileMenu: React.FC<{ routes: any[]; logout: ()=>void }> = ({routes, logout}) => {
     /* Mobile menu is shown screen width < 640 */
     return (
-        <div className="flex flex-col justify-between items-center py-4 sm:flex-row sm:space-y-0 sm:space-x-2 font-medium text-base text-gray text-center">
+        <div className='flex flex-col justify-between items-center py-4 sm:flex-row sm:space-y-0 sm:space-x-2 font-medium text-base text-gray text-center'>
         {
             /* Render elements of 'routes' array */
             routes.map((element, index) => {
-            if(index === 1 && element.name === "Logout") {
+            if(index === 1 && element.name === 'Logout') {
                 return (
                     <div
-                        className="w-full py-2 cursor-pointer"
+                        className='w-full py-2 cursor-pointer'
                         onClick={() => {logout();}}
                         key={element.name}
                     >
@@ -77,7 +77,7 @@ const MobileMenu: React.FC<{ routes: any[]; logout: ()=>void }> = ({routes, logo
             }
             return (
                 <Link
-                    className="w-full py-2"
+                    className='w-full py-2'
                     to={element.href}
                     key={element.name}
                 >
@@ -104,7 +104,7 @@ function Topbar () {
           href: ROUTES.FAQ,
         },
         {
-          name: user.token === "" ? 'Login' : 'Logout',
+          name: user.token === '' ? 'Login' : 'Logout',
           href: ROUTES.LANDING,
         },
     ];
@@ -120,15 +120,15 @@ function Topbar () {
         }
         catch(e) {
         }
-        dispatch(setUser({ token: "" }));
+        dispatch(setUser({ token: '' }));
         navigate(ROUTES.LANDING);
     }
 
     
     return (
-        <header className="flex flex-row justify-center w-full px-4 py-4 bg-white shadow sm:px-4 border-b border-goLight fixed z-50 h-36">
+        <header className='flex flex-row justify-center w-full px-4 py-4 bg-white shadow sm:px-4 border-b border-goLight fixed z-50 h-36'>
             {/* Wrapper for the navigation bar contents */}
-            <nav className="flex flex-row items-center justify-between w-full max-w-7xl">
+            <nav className='flex flex-row items-center justify-between w-full max-w-7xl'>
 
                 {/* Grüne Oase Logo */}
                 <GreenOasisLogo />

@@ -50,13 +50,13 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
             })
         });
     } catch (error) {
-        dispatch(setUser({token: ""}));
+        dispatch(setUser({token: ''}));
     }
   }, []);
 
   return (
     <>
-    {user.token === "" ? <Navigate to={ROUTES.LANDING}/> :
+    {user.token === '' ? <Navigate to={ROUTES.LANDING}/> :
     <Dialog sx={{
         '& .MuiDialog-paper': {
             width: '100%', // Full width on smaller screens
@@ -76,16 +76,16 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
         <TextField
           autoFocus
           FormHelperTextProps={{ sx: { minHeight: '1.5em' } }} // Reserve space for helper text
-          margin="dense"
-          id="garden-name"
-          label="Name des Gartens"
-          type="text"
-          variant="outlined"
+          margin='dense'
+          id='garden-name'
+          label='Name des Gartens'
+          type='text'
+          variant='outlined'
           fullWidth
           value={gardenName}
           onChange={(e) => setGardenName(e.target.value)}
           error={disabled}
-          helperText={disabled ? "Name muss mindestens 5 Buchstaben haben" : ""}
+          helperText={disabled ? 'Name muss mindestens 5 Buchstaben haben' : ''}
           sx= {{
             width: '100%', // Ensuring consistent width
             '& .MuiFormHelperText-root': {
@@ -110,9 +110,9 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
         }}
         />
         {communityGardensLoaded? 
-        <FormControl fullWidth margin="dense" variant="outlined">
+        <FormControl fullWidth margin='dense' variant='outlined'>
           <InputLabel
-            id="community-garden-label"
+            id='community-garden-label'
             sx={{
             color: 'grey',
             '&.Mui-focused': {
@@ -123,10 +123,10 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
             Gemeinschaftsgarten
           </InputLabel>
           <Select
-            labelId="community-garden-label"
-            id="community-garden-select"
+            labelId='community-garden-label'
+            id='community-garden-select'
             value={communityGarden}
-            label="Community Garden"
+            label='Community Garden'
             onChange={(e) => setCommunityGarden(e.target.value as string)}
             sx={{
                 '& .MuiOutlinedInput-root': {
@@ -145,7 +145,7 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
                   },
               }}
           >
-            <MenuItem value="">-</MenuItem>
+            <MenuItem value=''>-</MenuItem>
             {communityGardens.map((element, index) => {
                 return <MenuItem key={index} value={element._id}>{element.name}</MenuItem>;
             })}
@@ -154,15 +154,15 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', marginBottom: 2 }}>
         <Button 
-            onClick={handleClose} variant="outlined" 
+            onClick={handleClose} variant='outlined' 
             sx={{ 
                 color: '#057038', borderColor: '#057038', borderRadius: '20px', 
-                "&:hover": {borderColor: '#057038'} 
+                '&:hover': {borderColor: '#057038'} 
             }}>
             Abbrechen
         </Button>
         <Button 
-            onClick={() => {handleConfirm(gardenName, communityGarden)}} variant="contained" disabled={disabled}
+            onClick={() => {handleConfirm(gardenName, communityGarden)}} variant='contained' disabled={disabled}
             sx={{ 
                 borderRadius: '20px', ml: 2, bgcolor: 'green',
                 backgroundImage: disabled? null : 'linear-gradient(135deg, #97d045, #057038)',
@@ -170,7 +170,7 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
                 backgroundColor: disabled ? '#c7c7c7' : null,
                 transition: 'transform 0.5s ease-in-out',  
                 cursor: disabled ? 'default' : 'pointer',
-                "&:hover": {transform: disabled? 'none' : 'scale(1.05)'} 
+                '&:hover': {transform: disabled? 'none' : 'scale(1.05)'} 
             }}>
           Bestätigen
         </Button>

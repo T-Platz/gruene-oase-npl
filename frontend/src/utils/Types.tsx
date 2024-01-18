@@ -1,4 +1,4 @@
-import { ReportCategory } from "./Common"
+import { ReportCategory } from './Common'
 
 export interface IssuesResponse {
     issues: number

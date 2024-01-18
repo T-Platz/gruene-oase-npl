@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import QRCode from 'qrcode.react';
 import { Typography } from '@mui/material';
 import greenOasisLogoText from '../components/assets/images/GrüneOaseLogoText.png';
@@ -16,14 +16,14 @@ const SignPage: React.FC = () => {
 
   const GreenOasisLogo = () => {
     return (
-        <img className="object-cover h-20" src={greenOasisLogoText}>
+        <img className='object-cover h-20' src={greenOasisLogoText}>
         </img>
     )
   }
 
   const downloadPdf = () => {
     const pdf = new jsPDF({
-      unit: "px",
+      unit: 'px',
       format: [595, 842]
     });
 
@@ -41,9 +41,9 @@ const SignPage: React.FC = () => {
 
   return (
     <>
-    {user.token === "" ? <Navigate to={ROUTES.LANDING}/> :
-    <div className="flex flex-col justify-between items-center w-full mb-8">
-      <div className="flex justify-center w-full items-center mb-4">
+    {user.token === '' ? <Navigate to={ROUTES.LANDING}/> :
+    <div className='flex flex-col justify-between items-center w-full mb-8'>
+      <div className='flex justify-center w-full items-center mb-4'>
         <DownloadPDFButton onClick={downloadPdf}/>
       </div>
       <div ref={componentRef} className='flex flex-col justify-start items-center bg-white shadow-lg mx-auto' style={{ width: '595px', height: '840px' }}>
@@ -53,7 +53,7 @@ const SignPage: React.FC = () => {
         <QRCode size={220} value={`http://localhost:3000${ROUTES.REPORT}${lotNr}`} />
         <Typography variant='h5'  color='#057038' align='center' sx={{padding: 4}}>{'\u00A0'}</Typography>
         <Typography variant='h4'><strong>{`Garten:  ${lotNr?.toString().padStart(4, '0')}`}</strong></Typography>
-        <div className="flex flex-1 bg-goDark w-full mt-12"/>
+        <div className='flex flex-1 bg-goDark w-full mt-12'/>
       </div>
     </div>}
     </>

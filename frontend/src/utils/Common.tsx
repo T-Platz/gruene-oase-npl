@@ -1,5 +1,5 @@
-import { AgricultureSharp, ChatBubbleOutlineSharp, ContentCutSharp, GrassSharp, PeopleSharp, PestControlSharp, ScheduleSharp, WaterDropSharp } from "@mui/icons-material";
-import { ReactNode } from "react";
+import { AgricultureSharp, ChatBubbleOutlineSharp, ContentCutSharp, GrassSharp, PeopleSharp, PestControlSharp, ScheduleSharp, WaterDropSharp } from '@mui/icons-material';
+import { ReactNode } from 'react';
 
 export const formatDate = (date: Date) => {
     return date.toLocaleString('de-DE', {
@@ -48,9 +48,9 @@ export enum InfoSection {
     QUALITY = 'Quality'
 }
 export const infoIconMap: { [key in InfoSection]: ReactNode } = {
-    [InfoSection.COMMUNITY]: <PeopleSharp fontSize="large"/>,
-    [InfoSection.EFFICIENCY]: <ScheduleSharp fontSize="large"/>,
-    [InfoSection.QUALITY]: <GrassSharp fontSize="large"/>
+    [InfoSection.COMMUNITY]: <PeopleSharp fontSize='large'/>,
+    [InfoSection.EFFICIENCY]: <ScheduleSharp fontSize='large'/>,
+    [InfoSection.QUALITY]: <GrassSharp fontSize='large'/>
 };
 export const infoTitleMap: { [key in InfoSection]: string } = {
     [InfoSection.COMMUNITY]: 'Gemeinschaft fördern',
@@ -58,7 +58,7 @@ export const infoTitleMap: { [key in InfoSection]: string } = {
     [InfoSection.QUALITY]: 'Gartenqualiät verbessern'
 };
 export const infoDescriptionMap: { [key in InfoSection]: string } = {
-    [InfoSection.COMMUNITY]: "Verbinden Sie sich mit anderen Gartenliebhabern und arbeiten Sie gemeinsam an einem blühenden Gemeinschaftsgarten.",
-    [InfoSection.EFFICIENCY]: "Sparen Sie Zeit und Mühe durch direktes Feedback und nützliche Tipps von Besuchern, ohne ständig vor Ort sein zu müssen.",
-    [InfoSection.QUALITY]: "Profitieren Sie von kollektivem Wissen und Erfahrung, um Ihren Garten optimal zu pflegen und zu gestalten."
+    [InfoSection.COMMUNITY]: 'Verbinden Sie sich mit anderen Gartenliebhabern und arbeiten Sie gemeinsam an einem blühenden Gemeinschaftsgarten.',
+    [InfoSection.EFFICIENCY]: 'Sparen Sie Zeit und Mühe durch direktes Feedback und nützliche Tipps von Besuchern, ohne ständig vor Ort sein zu müssen.',
+    [InfoSection.QUALITY]: 'Profitieren Sie von kollektivem Wissen und Erfahrung, um Ihren Garten optimal zu pflegen und zu gestalten.'
 };

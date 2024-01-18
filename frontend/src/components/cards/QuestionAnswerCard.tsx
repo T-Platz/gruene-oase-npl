@@ -1,5 +1,5 @@
-import { KeyboardArrowDownSharp, KeyboardArrowUpSharp } from "@mui/icons-material";
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { KeyboardArrowDownSharp, KeyboardArrowUpSharp } from '@mui/icons-material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
 interface QuestionAnswerCardProps {
     index: number,
@@ -21,13 +21,13 @@ function QuestionAnswerCard(props: QuestionAnswerCardProps) {
         >               
             <Card onClick={() => {props.setOpened(props.index)}} sx={{cursor: 'pointer'}}>
                 <CardContent sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Typography sx={{paddingRight: 2}} variant="h6">{props.question}</Typography>
+                    <Typography sx={{paddingRight: 2}} variant='h6'>{props.question}</Typography>
                     {!props.opened? <KeyboardArrowDownSharp/> : <KeyboardArrowUpSharp/>}
                 </CardContent>
             </Card>
             {props.opened?
-            <div className="p-4 border-l border-r border-b border-1 border-goLight bg-grayLight">
-                <Typography variant="body1">{props.answer}</Typography>
+            <div className='p-4 border-l border-r border-b border-1 border-goLight bg-grayLight'>
+                <Typography variant='body1'>{props.answer}</Typography>
             </div> : <div/>}
         </Box>
     );

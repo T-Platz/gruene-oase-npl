@@ -1,26 +1,26 @@
-import { Typography } from "@mui/material";
-import GardenCard from "../components/cards/GardenCard";
-import AddGardenButton from "../components/buttons/AddGardenButton";
-import AllNotifications from "../components/other/AllNotifications";
-import { useEffect, useState } from "react";
-import MessageDialog from "../components/dialogs/MessageDialog";
-import { useWindowDimensions } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { Navigate } from "react-router-dom";
-import ROUTES from "../Routes";
-import NewGardenDialog from "../components/dialogs/NewGardenDialog";
-import api from "../utils/ApiService";
-import BallLoader from "../components/loaders/BallLoader";
-import { IssuesResponse, Lot, ReportsResponse, UserResponse } from "../utils/Types";
-import { setUser } from "../redux/userSlice";
+import { Typography } from '@mui/material';
+import GardenCard from '../components/cards/GardenCard';
+import AddGardenButton from '../components/buttons/AddGardenButton';
+import AllNotifications from '../components/other/AllNotifications';
+import { useEffect, useState } from 'react';
+import MessageDialog from '../components/dialogs/MessageDialog';
+import { useWindowDimensions } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { Navigate } from 'react-router-dom';
+import ROUTES from '../Routes';
+import NewGardenDialog from '../components/dialogs/NewGardenDialog';
+import api from '../utils/ApiService';
+import BallLoader from '../components/loaders/BallLoader';
+import { IssuesResponse, Lot, ReportsResponse, UserResponse } from '../utils/Types';
+import { setUser } from '../redux/userSlice';
 
 function MyGardensPage() {
     const [messageDialogOpen, setMessageDialogOpen] = useState<boolean>(false);
     const [gardenDialogOpen, setGardenDialogOpen] = useState<boolean>(false);
 
-    const [messageLot, setMessageLot] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
+    const [messageLot, setMessageLot] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
     const [lotsLoaded, setLotsLoaded] = useState<boolean>(false);
     const [lots, setLots] = useState<Lot[]>([]);
     const [totalIssues, setTotalIssues] = useState<number>(0);
@@ -57,7 +57,7 @@ function MyGardensPage() {
             setLots(lots.sort((a, b) =>  b.timestamp - a.timestamp ));
             setLotsLoaded(true);
         } catch(error) {
-            dispatch(setUser({token: ""}));
+            dispatch(setUser({token: ''}));
         }
     }
 
@@ -112,12 +112,12 @@ function MyGardensPage() {
 
     const closeMessageDialog = () => {
         setMessageDialogOpen(false);
-        setMessage("");
-        setMessageLot("");
+        setMessage('');
+        setMessageLot('');
     }
 
     const handleGardenConfirm = async (lotName: string, communityGardenId: string) => {
-        const lot = { name: lotName, garden: communityGardenId === "" ? undefined : communityGardenId };
+        const lot = { name: lotName, garden: communityGardenId === '' ? undefined : communityGardenId };
         await api.post('lot', {
             body: JSON.stringify(lot),
             headers: {
@@ -136,18 +136,18 @@ function MyGardensPage() {
 
     return (
         <>
-        {user.token === "" ? <Navigate to={ROUTES.LANDING}/> :
+        {user.token === '' ? <Navigate to={ROUTES.LANDING}/> :
         <>
         {lotsLoaded?
-        <div className="flex flex-col">
-            <div className="flex flex-row w-full justify-between items-center">
-                <div className="flex flex-col">
-                    <Typography variant={width >= 640 ? "h3": "h4"} color='#057038'>Meine Gärten</Typography>
+        <div className='flex flex-col'>
+            <div className='flex flex-row w-full justify-between items-center'>
+                <div className='flex flex-col'>
+                    <Typography variant={width >= 640 ? 'h3': 'h4'} color='#057038'>Meine Gärten</Typography>
                     <AllNotifications number={totalIssues}/>
                 </div>
                 <AddGardenButton onClick={() => {setGardenDialogOpen(true);}}/>
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 sm:grid-cols-2 mt-8 mb-8">
+            <div className='grid grid-cols-1 gap-4 lg:grid-cols-2 sm:grid-cols-2 mt-8 mb-8'>
                 {lots.map((element, index) => {
                     return <GardenCard 
                         key={index} 

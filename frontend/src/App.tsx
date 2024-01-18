@@ -56,7 +56,7 @@ function App() {
               element={<PageLayout children={<CreateReportPage/>}/>}
             />
             <Route
-              key={"*"}
+              key={'*'}
               path='*'
               element={<Navigate to={ROUTES.LANDING}/>}
             />
