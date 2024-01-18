@@ -1,4 +1,4 @@
-import { AddSharp, GrassSharp } from "@mui/icons-material";
+import { AddSharp } from "@mui/icons-material";
 import { Box, Card, Typography } from "@mui/material";
 
 interface AddGardenButtonProps {
@@ -21,13 +21,13 @@ function AddGardenButton(props: AddGardenButtonProps) {
                     "&:hover": {transform: 'scale(1.1)'}
                 }}>
                 <Box sx={{padding: '6px', backgroundColor: 'white', borderRadius: '50%', // Gives the button rounded corners
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',}}>
-                    <AddSharp sx={{color: '#057038', fontSize: 40}}/>
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',}}>
+                <AddSharp sx={{color: '#057038', fontSize: 40}}/>
                 </Box>
                 <Typography color='white' variant="h6">Hinzufügen</Typography>
             </Card>
         </div>
-    )
+    );
 }
 
 export default AddGardenButton;

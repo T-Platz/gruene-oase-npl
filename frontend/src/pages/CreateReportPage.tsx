@@ -1,10 +1,10 @@
-import { HelpCenterSharp, ReportProblemSharp, ThumbUpSharp } from "@mui/icons-material";
+import { HelpCenterSharp, ReportProblemSharp } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BallLoader from "../components/loaders/BallLoader";
 import ROUTES from "../Routes";
-import { notificationTypes } from "../utils/Common";
+import { ReportCategory } from "../utils/Common";
 import NotificationCard from "../components/cards/NotificationCard";
 import { useWindowDimensions } from "react-native";
 import SendNotificationButton from "../components/buttons/SendNotificationButton";
@@ -13,9 +13,8 @@ import api from "../utils/ApiService";
 function CreateReportPage() {
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
     const [gardenExists, setGardenExists] = useState<boolean>(false);
-    const [reportCreated, setReportCreated] = useState<boolean>(false);
-    const [selectedNotification, setSelectedNotification] = useState<number>(-1);
-    const [message, setMessage] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<ReportCategory | null>(null);
+    const [message, setMessage] = useState<string>('');
 
     const { lotNr } = useParams();
     const navigate = useNavigate();
@@ -26,10 +25,10 @@ function CreateReportPage() {
             setGardenExists(true);
             setFullyLoaded(true);
         }
-    }, [lotNr])
+    }, [lotNr]);
 
     const createReport = async () => {
-        const report = {lotNr: lotNr, category: notificationTypes[selectedNotification], description: message};
+        const report = {lotNr: lotNr, category: selectedCategory, description: message};
         api.post('report', {
             body: JSON.stringify(report),
             headers: {
@@ -37,7 +36,7 @@ function CreateReportPage() {
             }
         });
         navigate(ROUTES.REPORTCREATED);
-    }
+    };
 
     return (
         <>
@@ -51,12 +50,12 @@ function CreateReportPage() {
                         <Typography variant={width >= 640 ? "h6": "body1"} sx={{color: gardenExists ? '#97d045' : '#e55523', paddingLeft:  width >= 640 ? '8px' : null}}>{gardenExists? 'Teilen Sie die Probleme mit diesem Garten mit oder geben Sie Tipps!' : 'Dieser Garten existert nicht.'}</Typography>
                     </div>
                 </div>
-                <SendNotificationButton smallScreen={width < 640} disabled={selectedNotification === -1} onClick={() => {createReport();}}/>
+                <SendNotificationButton smallScreen={width < 640} disabled={selectedCategory === null} onClick={() => {createReport();}}/>
             </div>
             <div className="mt-8 mb-8">
-                {notificationTypes.map((element, index) => {
+                {Object.values(ReportCategory).map(category => {
                     return (
-                        <NotificationCard key={index} type={element} index={index} selected={selectedNotification} setSelected={setSelectedNotification} message={message} setMessage={setMessage}/>
+                        <NotificationCard category={category} isSelected={selectedCategory === category} setSelected={setSelectedCategory} message={message} setMessage={setMessage}/>
                     )
                 })}
             </div>

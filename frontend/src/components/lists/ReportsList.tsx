@@ -1,7 +1,7 @@
 import { Check, KeyboardArrowDownSharp, KeyboardArrowUpSharp, ReportProblemSharp } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useState } from "react";
-import { formatDate, iconMap, textMap } from "../../utils/Common";
+import { formatDate, ReportCategory, iconMap, textMap } from "../../utils/Common";
 import { Report } from "../../utils/Types";
 import BallLoader from "../loaders/BallLoader";
 
@@ -69,11 +69,11 @@ function ReportsListItem(props: ReportsListItemProps) {
         <div className="w-full flex flex-col justify-between">
             <div className={`flex flex-row w-full border-b border-gray py-2 items-center justify-between px-4 bg-opacity-10 ${props.report.viewed? 'bg-goLight' : 'bg-goOrange'}`}>
                 <div className="flex flex-row">
-                    {iconMap.get(props.report.category)}
+                    {iconMap[props.report.category]}
                     <div 
-                        onClick={() => {if(props.report.category === "Custom") { props.openMessage(props.garden, props.report.description)}}} 
-                        className={`font-semibold pl-2 ${props.report.category === "Custom" ? 'hover:underline cursor-pointer' : ''}`}>
-                            {textMap.get(props.report.category)}
+                        onClick={() => {if(props.report.category === ReportCategory.MESSAGE) { props.openMessage(props.garden, props.report.description)}}} 
+                        className={`font-semibold pl-2 ${props.report.category === ReportCategory.MESSAGE ? 'hover:underline cursor-pointer' : ''}`}>
+                            {textMap[props.report.category]}
                     </div>
                 </div>
                 <div className="text-gray font-light">{formatDate(new Date(props.report.timestamp))}</div>

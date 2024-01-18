@@ -1,4 +1,3 @@
-// import CSS;
 import './BallLoader.css';
 
 const BallLoader = () => {

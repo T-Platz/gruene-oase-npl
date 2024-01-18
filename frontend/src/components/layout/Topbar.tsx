@@ -5,7 +5,6 @@ import greenOasisLogoText from '../assets/images/GrüneOaseLogoText.png';
 import greenOasisLogo from "../assets/images/GrüneOaseLogo.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { Box } from "@mui/material";
 import { setUser } from "../../redux/userSlice";
 import api from "../../utils/ApiService";
 
@@ -112,7 +111,7 @@ function Topbar () {
 
     const logout = async () => {
         try {
-            const response = await api.post('auth/logout', {
+            await api.post('auth/logout', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`,
                     'Content-Type': 'application/json'

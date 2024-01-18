@@ -13,7 +13,7 @@ function AllNotifications(props: AllNotificationsProps) {
                 {
                     props.number <= 0 ? 'Mit deinen Gärten ist alles in Ordnung!' :
                     props.number === 1 ? '1 neue Meldung!' :
-                    `${props.number} neue Meldungen`
+                    `${props.number} neue Meldungen!`
                 }
             </Typography>
         </div>

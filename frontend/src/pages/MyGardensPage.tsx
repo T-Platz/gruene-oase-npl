@@ -4,7 +4,6 @@ import AddGardenButton from "../components/buttons/AddGardenButton";
 import AllNotifications from "../components/other/AllNotifications";
 import { useEffect, useState } from "react";
 import MessageDialog from "../components/dialogs/MessageDialog";
-import { communityGardens, parcels } from "../utils/ExampleData";
 import { useWindowDimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -13,11 +12,10 @@ import ROUTES from "../Routes";
 import NewGardenDialog from "../components/dialogs/NewGardenDialog";
 import api from "../utils/ApiService";
 import BallLoader from "../components/loaders/BallLoader";
-import { IssuesResponse, Lot, ReportsResponse, User, UserResponse } from "../utils/Types";
+import { IssuesResponse, Lot, ReportsResponse, UserResponse } from "../utils/Types";
 import { setUser } from "../redux/userSlice";
 
 function MyGardensPage() {
-    // TODO: Check if user is authenticated
     const [messageDialogOpen, setMessageDialogOpen] = useState<boolean>(false);
     const [gardenDialogOpen, setGardenDialogOpen] = useState<boolean>(false);
 
@@ -119,9 +117,8 @@ function MyGardensPage() {
     }
 
     const handleGardenConfirm = async (lotName: string, communityGardenId: string) => {
-
         const lot = { name: lotName, garden: communityGardenId === "" ? undefined : communityGardenId };
-        const response = await api.post('lot', {
+        await api.post('lot', {
             body: JSON.stringify(lot),
             headers: {
                 'Authorization': `Bearer ${user.token}`,
@@ -136,8 +133,6 @@ function MyGardensPage() {
     const closeGardenDialog = () => {
         setGardenDialogOpen(false);
     }
-
-    // TODO: Function to get parcels, set notifications to seen...
 
     return (
         <>

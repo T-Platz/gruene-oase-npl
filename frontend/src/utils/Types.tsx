@@ -1,3 +1,5 @@
+import { ReportCategory } from "./Common"
+
 export interface IssuesResponse {
     issues: number
 }
@@ -13,7 +15,7 @@ export interface Garden {
 
 export interface Report {
     description: string,
-    category: string,
+    category: ReportCategory,
     timestamp: number,
     viewed: boolean
 }

@@ -1,15 +1,14 @@
-import React, { FormEvent, useState } from 'react';
-import { TextField, Button, Container, Paper, Typography, FormControlLabel, Checkbox, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Paper, Typography, FormControlLabel, Checkbox, Box } from '@mui/material';
 import greenOasisLogoText from '../components/assets/images/GrüneOaseLogoText.png';
 import greenOasisLogo from "../components/assets/images/GrüneOaseLogo.jpeg";
 import { useWindowDimensions } from 'react-native';
-import { infoDescriptionList, infoIconList, infoTitleList } from '../utils/Common';
-import { Link, useNavigate } from 'react-router-dom';
+import { InfoSection, infoDescriptionMap, infoIconMap, infoTitleMap } from '../utils/Common';
+import { useNavigate } from 'react-router-dom';
 import ROUTES from '../Routes';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import api from '../utils/ApiService';
-
 
 interface GreenOasisLogoProps {
     showText: boolean
@@ -22,15 +21,15 @@ const GreenOasisLogo = (props: GreenOasisLogoProps) => {
 }
 
 interface InfoBoxProps {
-    index: number
+    section: InfoSection
 }
 
 function InfoBox(props: InfoBoxProps) {
     return (
         <div className='h-2/10 flex flex-col justify-start items-center border-white border-l border-r border-b px-4 py-8'>
-            {infoIconList[props.index]}
-            <Typography variant='h5' color="white" sx={{textAlign: 'center', marginY: 1}}>{infoTitleList[props.index]}</Typography>
-            <Typography variant='body1' color="white" sx={{textAlign: 'center'}}>{infoDescriptionList[props.index]}</Typography>
+            {infoIconMap[props.section]}
+            <Typography variant='h5' color="white" sx={{textAlign: 'center', marginY: 1}}>{infoTitleMap[props.section]}</Typography>
+            <Typography variant='body1' color="white" sx={{textAlign: 'center'}}>{infoDescriptionMap[props.section]}</Typography>
         </div>
     );
 }
@@ -86,9 +85,7 @@ const LoginScreen: React.FC = () => {
     } catch (e) {
         alert('Login failed.');
     }
-}
-
-
+  }
 
   return (
     <div className="flex h-screen">
@@ -100,9 +97,9 @@ const LoginScreen: React.FC = () => {
         </div>
         <div className="flex-grow"></div>
         <div className="bg-goLight bg-opacity-80 text-white grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-1">
-          <InfoBox index={0}/>
-          <InfoBox index={1}/>
-          <InfoBox index={2}/>
+          <InfoBox section={InfoSection.COMMUNITY}/>
+          <InfoBox section={InfoSection.EFFICIENCY}/>
+          <InfoBox section={InfoSection.QUALITY}/>
         </div>
       </div> : <></>}
 

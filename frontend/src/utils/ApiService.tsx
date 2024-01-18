@@ -1,15 +1,12 @@
 import ky, { Options } from 'ky';
 
-// Define an interface for your API configuration options if needed
 interface ApiConfig extends Options {
-    // Add any custom properties you might need
+    // Add custom properties if needed
 }
 
 const apiConfig: ApiConfig = {
     mode: 'cors',
-    prefixUrl: 'http://localhost:8000', // Your backend URL
-    // referrerPolicy: 'origin-when-cross-origin', // Uncomment if needed
-    // hooks: 'interceptors', // Adjust this if you have specific interceptors
+    prefixUrl: 'http://localhost:8000',
     credentials: 'include',
     redirect: 'follow'
 };

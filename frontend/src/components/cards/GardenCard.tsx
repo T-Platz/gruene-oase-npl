@@ -1,11 +1,10 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from "@mui/material"
 import { formatDate } from "../../utils/Common"
 import ROUTES from "../../Routes"
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import goSign from "../assets/images/GoSign.png";
 import ReportsList from "../lists/ReportsList";
 import { Report } from "../../utils/Types";
-
 
 const GreenOasisSign = () => {
     return (

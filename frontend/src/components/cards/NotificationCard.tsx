@@ -1,18 +1,15 @@
 import { Box, Card, CardContent, TextField, Typography } from "@mui/material";
-import { descriptionMap, iconMap, textMap } from "../../utils/Common";
+import { ReportCategory, descriptionMap, iconMap, textMap } from "../../utils/Common";
 
 interface NotificationCardProps {
-    type: string, 
-    selected: number, 
-    index: number,
-    setSelected: (index: number) => void,
+    category: ReportCategory, 
+    isSelected: boolean,
+    setSelected: (index: ReportCategory | null) => void,
     message: string,
     setMessage: (message: string) => void
 }
 
 function NotificationCard (props: NotificationCardProps) {
-    const isSelected = props.index === props.selected;
-
     return (
         <Box 
             sx={{
@@ -25,36 +22,38 @@ function NotificationCard (props: NotificationCardProps) {
                 sx={{
                     paddingY: 0.5,
                     paddingX: 1.5,
-                    backgroundImage: isSelected ? 'linear-gradient(135deg, #97d045, #F5F5F5)' : null,
+                    backgroundImage: props.isSelected ? 'linear-gradient(135deg, #97d045, #F5F5F5)' : null,
                     transition: 'transform 0.15s ease-in-out',
                     cursor: 'pointer',
-                    border: isSelected ? 2 : null,
+                    border: props.isSelected ? 2 : null,
                     borderColor: '#057038',
                     '&:hover': {
                         transform: 'scale(1.02)'
                     },
-                    transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                    transform: props.isSelected ? 'scale(1.02)' : 'scale(1)',
                 }}
-                onClick={() => {props.setSelected(isSelected ? -1 : props.index);}}
+                onClick={() => {props.setSelected(props.isSelected ? null : props.category);}}
             >
                 <CardContent>
                     <div className="flex flex-col">
                         <div className="flex flex-row justify-start items-center">
-                            <div>{iconMap.get(props.type)}</div>
+                            <div>{iconMap[props.category]}</div>
                             <div className="flex flex-col px-4">
-                                <Typography variant="h6">{textMap.get(props.type)}</Typography>
+                                <Typography variant="h6">{
+                                    textMap[props.category]}
+                                </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {descriptionMap.get(props.type)}
+                                    {descriptionMap[props.category]}
                                 </Typography>
                             </div>
                         </div>
-                        {props.type === "Custom" ? 
+                        {props.category === ReportCategory.MESSAGE ? 
                             <div className="w-full mt-4">
                             <TextField
                                 fullWidth
                                 sx={{
                                     '& label.Mui-focused': {
-                                    color: '#057038', // Change color of the label on focus
+                                        color: '#057038', // Change color of the label on focus
                                     },
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
@@ -74,7 +73,7 @@ function NotificationCard (props: NotificationCardProps) {
                                 value={props.message}
                                 multiline
                                 variant="outlined"
-                                onClick={(event) => {if(isSelected) { event.stopPropagation();}}}
+                                onClick={(event) => {if(props.isSelected) { event.stopPropagation();}}}
                                 onChange={(event) => {props.setMessage(event.target.value);}}
                             />
                             </div>

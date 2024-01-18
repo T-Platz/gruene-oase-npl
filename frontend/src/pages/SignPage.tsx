@@ -19,7 +19,7 @@ const SignPage: React.FC = () => {
         <img className="object-cover h-20" src={greenOasisLogoText}>
         </img>
     )
-}
+  }
 
   const downloadPdf = () => {
     const pdf = new jsPDF({
@@ -38,8 +38,6 @@ const SignPage: React.FC = () => {
       });
     }
   };
-
-  // TODO: check if user of garden is same as state
 
   return (
     <>

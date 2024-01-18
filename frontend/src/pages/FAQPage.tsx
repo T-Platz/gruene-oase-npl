@@ -1,9 +1,8 @@
-import { HelpCenterSharp } from "@mui/icons-material";
-import { Card, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useState } from "react";
 import { useWindowDimensions } from "react-native";
 import QuestionAnswerCard from "../components/cards/QuestionAnswerCard";
-import faq from "../utils/GartenService_FAQs.json";
+import faq from "../utils/FAQ.json";
 
 function FAQPage() {
     const [openedQuestions, setOpenedQuestions] = useState<number[]>([]);
@@ -11,7 +10,7 @@ function FAQPage() {
 
     const handleClick = (index: number) => {
         // Add if new
-        if(! openedQuestions.includes(index)) {
+        if (!openedQuestions.includes(index)) {
             setOpenedQuestions(openedQuestions => [...openedQuestions, index]);
         }
         // Remove if already in array

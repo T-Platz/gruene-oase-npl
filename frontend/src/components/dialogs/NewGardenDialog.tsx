@@ -20,8 +20,8 @@ interface NewGardenDialogProps {
 }
 
 interface GardensResponse {
-    gardens: CommunityGarden[]
-  }
+  gardens: CommunityGarden[]
+}
 
 
 
