@@ -70,14 +70,12 @@ const LoginScreen: React.FC = () => {
             const credentials = {email: email, password: password, notify: getNotifications};
 
             const response = await api.post(register ? 'auth/register' : 'auth/login', {
-              body: JSON.stringify(credentials),
-              headers: {
-                  'Content-Type': 'application/json'
-              }
+                body: JSON.stringify(credentials),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
-            console.log('Response', response);
             const user = await response.json() as User;
-            console.log('User', user);  
 
             dispatch(setUser({ token: user.auth }))
             navigate(ROUTES.GARDENS);
@@ -194,7 +192,7 @@ const LoginScreen: React.FC = () => {
                 variant='contained'
                 sx={{marginTop: 2, backgroundColor: '#057038', '&:hover': {backgroundColor: '#97d045'}}}
             >
-                Einloggen
+                {register ? 'Registrieren' : 'Einloggen'}
             </Button>
           </Box>
         </Paper>
