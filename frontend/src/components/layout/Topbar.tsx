@@ -1,20 +1,19 @@
 import { useWindowDimensions } from 'react-native';
 import ROUTES from '../../Routes';
 import { Link, useNavigate } from 'react-router-dom';
-import greenOasisLogoText from '../assets/images/GrüneOaseLogoText.png';
-import greenOasisLogo from '../assets/images/GrüneOaseLogo.jpeg';
+import grueneOaseLogoText from '../assets/images/GrüneOaseLogoText.webp';
+import grueneOaseLogo from '../assets/images/GrüneOaseLogo.webp';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setUser } from '../../redux/userSlice';
 import api from '../../utils/ApiService';
 
-
-const GreenOasisLogo = () => {
+const GrueneOaseLogo = () => {
     const { height, width } = useWindowDimensions();
 
     return (
         <Link to={ROUTES.GARDENS}>
-            <img className='object-cover h-28' src={width >= 800 ? greenOasisLogoText : greenOasisLogo}>
+            <img className='object-cover h-28' src={width >= 800 ? grueneOaseLogoText : grueneOaseLogo}>
             </img>
         </Link>
     )
@@ -131,7 +130,7 @@ function Topbar () {
             <nav className='flex flex-row items-center justify-between w-full max-w-7xl'>
 
                 {/* Grüne Oase Logo */}
-                <GreenOasisLogo />
+                <GrueneOaseLogo />
 
                 {/* Standard Menu is only shown if screen width >= 640 */}
                 {width >= 640 ? <DesktopMenu logout={logout} routes={routes}/> : <MobileMenu logout={logout} routes={routes}/>}

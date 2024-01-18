@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { jsPDF } from 'jspdf';
 import QRCode from 'qrcode.react';
 import { Typography } from '@mui/material';
-import greenOasisLogoText from '../components/assets/images/GrüneOaseLogoText.png';
+import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoText.webp';
 import ROUTES from '../Routes';
 import { Navigate, useParams } from 'react-router-dom';
 import DownloadPDFButton from '../components/buttons/DownloadPDFButton';
@@ -14,23 +14,22 @@ const SignPage: React.FC = () => {
   const { lotNr } = useParams();
   const user = useSelector((state: RootState) => state.user);
 
-  const GreenOasisLogo = () => {
+  const GrueneOaseLogo = () => {
     return (
-        <img className='object-cover h-20' src={greenOasisLogoText}>
-        </img>
+        <img className='object-cover h-20' src={ grueneOaseLogoText } style={{ padding: '5px' }}></img>
     )
   }
 
   const downloadPdf = () => {
     const pdf = new jsPDF({
       unit: 'px',
-      format: [595, 842]
+      format: [200, 142]
     });
 
     if (componentRef.current) {
       pdf.html(componentRef.current, {
         callback: (doc) => {
-          doc.save(`schild-gartem${lotNr?.toString().padStart(4, '0')}.pdf`);
+          doc.save(`Schild Garten Nr ${lotNr?.toString().padStart(4, '0')}.pdf`);
         },
         x: 0,
         y: 0,
@@ -43,17 +42,20 @@ const SignPage: React.FC = () => {
     <>
     {user.token === '' ? <Navigate to={ROUTES.LANDING}/> :
     <div className='flex flex-col justify-between items-center w-full mb-8'>
-      <div className='flex justify-center w-full items-center mb-4'>
-        <DownloadPDFButton onClick={downloadPdf}/>
+      <div ref={componentRef} className='flex flex-col justify-start items-center bg-white shadow-lg mx-auto' style={{ width: '600px', height: '423px', position: 'relative' }}>
+        <div className='flex justify-center w-full bg-goDark items-center'><GrueneOaseLogo/></div>
+        <div className='w-full' style={{ paddingTop: '30px' }}>
+          <div style={{ float: 'left', width: '50%' }}>
+            <Typography variant='h5' color='#057038' align='center' sx={{ paddingTop: 8 }}>Ihre Meldung für einen blühenden Garten!</Typography>
+          </div>
+          <div className='justify-center' style={{ float: 'left', width: '50%' }}>
+            <QRCode size={250} value={`http://localhost:3000${ROUTES.REPORT}${lotNr}`} />
+          </div>
+        </div>
+        <Typography variant='h4' style={{ position: 'absolute', bottom: '0' }}><strong>{`Garten: ${lotNr?.toString().padStart(4, '0')}`}</strong></Typography>
       </div>
-      <div ref={componentRef} className='flex flex-col justify-start items-center bg-white shadow-lg mx-auto' style={{ width: '595px', height: '840px' }}>
-        <div className='flex justify-center w-full h-28 bg-goDark items-center'><GreenOasisLogo/></div>
-        <Typography variant='h4' color='#057038' align='center' sx={{padding: 2}}>Ihre Meldung für einen blühenden Garten!</Typography>
-        <Typography variant='body2' align='center' sx={{padding: 2, paddingTop: 0, paddingBottom: 4}}>Nutzen Sie den <strong>QR-Code</strong> oder wählen Sie die angezeigte <strong>Nummer</strong>, um <strong>Probleme</strong> zu melden, hilfreiche <strong>Tipps</strong> zu teilen oder dem Gärtner eine <strong>Nachricht</strong> zu senden.<br />Ihr Beitrag macht den Unterschied und hilft, unseren Garten gemeinsam zu verschönern!</Typography>
-        <QRCode size={220} value={`http://localhost:3000${ROUTES.REPORT}${lotNr}`} />
-        <Typography variant='h5'  color='#057038' align='center' sx={{padding: 4}}>{'\u00A0'}</Typography>
-        <Typography variant='h4'><strong>{`Garten:  ${lotNr?.toString().padStart(4, '0')}`}</strong></Typography>
-        <div className='flex flex-1 bg-goDark w-full mt-12'/>
+      <div className='flex justify-center w-full items-center mb-4' style={{ paddingTop: '30px' }}>
+        <DownloadPDFButton onClick={downloadPdf}/>
       </div>
     </div>}
     </>

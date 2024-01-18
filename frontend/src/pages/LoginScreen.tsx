@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Paper, Typography, FormControlLabel, Checkbox, Box } from '@mui/material';
-import greenOasisLogoText from '../components/assets/images/GrüneOaseLogoText.png';
-import greenOasisLogo from '../components/assets/images/GrüneOaseLogo.jpeg';
+import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoText.webp';
+import grueneOaseLogo from '../components/assets/images/GrüneOaseLogo.webp';
 import { useWindowDimensions } from 'react-native';
 import { InfoSection, infoDescriptionMap, infoIconMap, infoTitleMap } from '../utils/Common';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +10,13 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import api from '../utils/ApiService';
 
-interface GreenOasisLogoProps {
+interface GrueneOaseLogoProps {
     showText: boolean
 }
 
-const GreenOasisLogo = (props: GreenOasisLogoProps) => {
+const GrueneOaseLogo = (props: GrueneOaseLogoProps) => {
     return (
-        <img className='object-cover h-28' src={props.showText ? greenOasisLogoText : greenOasisLogo}/>
+        <img className='object-cover h-28' src={props.showText ? grueneOaseLogoText : grueneOaseLogo}/>
     )
 }
 
@@ -90,11 +90,11 @@ const LoginScreen: React.FC = () => {
       {/* Image container with Header and Footer */}
       {width >= 640 ?
       <div className='flex flex-col w-3/5 bg-cover bg-center bg-go-login'>
-        <div className={`bg-goLight bg-opacity-80 text-white text-xl p-4 ${width <1920 ? 'flex items-center justify-center' : ''}`}>
-          <GreenOasisLogo showText={width >= 840}/>
+        <div className={`bg-goDark bg-opacity-80 text-white text-xl p-4 ${width <1920 ? 'flex items-center justify-center' : ''}`}>
+          <GrueneOaseLogo showText={width >= 840}/>
         </div>
         <div className='flex-grow'></div>
-        <div className='bg-goLight bg-opacity-80 text-white grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-1'>
+        <div className='bg-goDark bg-opacity-80 text-white grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-1'>
           <InfoBox section={InfoSection.COMMUNITY}/>
           <InfoBox section={InfoSection.EFFICIENCY}/>
           <InfoBox section={InfoSection.QUALITY}/>
@@ -105,7 +105,7 @@ const LoginScreen: React.FC = () => {
       <div className={`flex flex-col justify-center items-center p-4 ${width >= 640 ? 'w-2/5' : 'w-full bg-cover bg-no-repeat bg-center bg-go-login'}`}>
         <Paper elevation={6} className='p-6 max-w-xs'>
           <div className='flex w-full justify-center items-center mb-2 text-center'>
-            <img className={`object-cover ${width >= 640 ? 'h-16':  'w-full'}`} src={width >= 640 ? greenOasisLogo : greenOasisLogoText}/>
+            <img className={`object-cover ${width >= 640 ? 'h-16':  'w-full'}`} src={width >= 640 ? grueneOaseLogo : grueneOaseLogoText}/>
           </div>
           <Typography component='h1' variant='h5' sx={{marginY: 2, textAlign: 'center'}}>
             {register? 'Jetzt registrieren!' : 'Willkommen zurück!'}

@@ -2,15 +2,15 @@ import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from
 import { formatDate, CommunityGarden } from '../../utils/Common'
 import ROUTES from '../../Routes'
 import { useNavigate } from 'react-router-dom';
-import goSign from '../assets/images/GoSign.png';
+import goSign from '../assets/images/Sign.png';
 import ReportsList from '../lists/ReportsList';
 import { Report } from '../../utils/Types';
 
-const GreenOasisSign = () => {
+const GrueneOaseSign = () => {
     return (
         <img className='object-cover h-20' src={goSign}>
         </img>
-    )
+    );
 }
 
 interface GardenCardProps {
@@ -50,7 +50,7 @@ function GardenCard(props: GardenCardProps) {
                 </CardContent>
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <div onClick={() => { navigate(`${ROUTES.GARDEN}${props.lotNr}`); }} className='flex flex-col items-center cursor-pointer'>
-                        <GreenOasisSign/>
+                        <GrueneOaseSign/>
                         <Button size='small'>Schild anzeigen</Button>
                     </div>
                 </CardActions>
