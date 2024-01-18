@@ -9,6 +9,15 @@ export const formatDate = (date: Date) => {
     });
 };
 
+export enum CommunityGarden {
+    ZAK_BEWOHNERGARTEN = 'ZAK Bewohnergarten',
+    ZAK_KINDERGARTEN = 'ZAK Kindergarten',
+    KRAEUTERGARTEN_RMD = 'Kräutergarten Strehleranger',
+    MIETERGARTEN_WSB = 'Mietergarten Karl-Marx-Allee',
+    COMMUNITY_KITCHEN = 'Community Kitchen',
+    KRAEUTERGARTEN_LTK = 'Kräutergarten Lätarekirche'
+};
+
 export enum ReportCategory {
     MESSAGE = 'Message',
     WATER = 'Water',

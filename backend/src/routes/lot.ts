@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from 'express';
-import { Counter, Garden, Lot, Report, User } from '../db/mongodb';
+import { Counter, Lot, Report, User } from '../db/mongodb';
 
 async function getLotNrCount(): Promise<number> {
     // Fetch counter from database
@@ -109,14 +109,6 @@ lotRouter.post('/', async (req: Request, res: Response) => {
     await user.save();
 
     return res.send({ lot: lot });
-});
-
-lotRouter.get('/gardens', async (req: Request, res: Response) => {
-    console.log('/lot/gardens GET');
-    const gardens = await Garden.find();
-    return res.send(
-        {gardens: gardens}
-    );
 });
 
 lotRouter.post('/view', async (req: Request, res: Response) => {

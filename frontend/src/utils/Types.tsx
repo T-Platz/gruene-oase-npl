@@ -1,4 +1,5 @@
-import { ReportCategory } from './Common'
+import { ReportCategory } from './Common';
+import { CommunityGarden } from './Common';
 
 export interface IssuesResponse {
     issues: number
@@ -6,11 +7,6 @@ export interface IssuesResponse {
 
 export interface ReportsResponse {
     reports: Report[]
-}
-
-export interface Garden {
-    _id: string,
-    name: string
 }
 
 export interface Report {
@@ -23,7 +19,7 @@ export interface Report {
 export interface Lot {
     nr: number,
     name: string,
-    garden?: Garden,
+    garden?: CommunityGarden,
     timestamp: number,
     reports?: Report[],
     issues?: number

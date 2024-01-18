@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Divider, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
-import api from '../../utils/ApiService';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import BallLoader from '../loaders/BallLoader';
-import { setUser } from '../../redux/userSlice';
 import ROUTES from '../../Routes';
 import { Navigate } from 'react-router-dom';
-
-interface CommunityGarden {
-    _id: string,
-    name: string
-}
+import { CommunityGarden } from '../../utils/Common';
 
 interface NewGardenDialogProps {
   open: boolean;
@@ -19,40 +12,13 @@ interface NewGardenDialogProps {
   handleConfirm: (name: string, gardenId: string) => void;
 }
 
-interface GardensResponse {
-  gardens: CommunityGarden[]
-}
-
-
-
 const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, handleConfirm }) => {
   const [gardenName, setGardenName] = useState('');
   const [communityGarden, setCommunityGarden] = useState('');
-  const [communityGardens, setCommunityGardens] = useState<CommunityGarden[]>([]);
-  const [communityGardensLoaded, setCommunityGardensLoaded] = useState<boolean>(false);
   const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
 
-  const disabled = gardenName.length > 0 && gardenName.length < 5;
-
-  useEffect(() => {
-    try {
-        api.get('lot/gardens', {
-            headers: {
-                'Authorization': `Bearer ${user.token}`,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            response.json().then(json => {
-                setCommunityGardens((json as GardensResponse).gardens); 
-                setCommunityGardensLoaded(true); 
-                console.log(json);
-            })
-        });
-    } catch (error) {
-        dispatch(setUser({token: ''}));
-    }
-  }, []);
+  const disabled = gardenName.length < 5;
+  const error = gardenName.length > 0 && gardenName.length < 5;
 
   return (
     <>
@@ -84,8 +50,8 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
           fullWidth
           value={gardenName}
           onChange={(e) => setGardenName(e.target.value)}
-          error={disabled}
-          helperText={disabled ? 'Name muss mindestens 5 Buchstaben haben' : ''}
+          error={error}
+          helperText={error ? 'Name muss mindestens 5 Buchstaben haben' : ''}
           sx= {{
             width: '100%', // Ensuring consistent width
             '& .MuiFormHelperText-root': {
@@ -109,7 +75,6 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
             marginBottom: 2
         }}
         />
-        {communityGardensLoaded? 
         <FormControl fullWidth margin='dense' variant='outlined'>
           <InputLabel
             id='community-garden-label'
@@ -146,11 +111,9 @@ const NewGardenDialog: React.FC<NewGardenDialogProps> = ({ open, handleClose, ha
               }}
           >
             <MenuItem value=''>-</MenuItem>
-            {communityGardens.map((element, index) => {
-                return <MenuItem key={index} value={element._id}>{element.name}</MenuItem>;
-            })}
+            {Object.values(CommunityGarden).map((garden, index) => <MenuItem key={index} value={garden}>{garden}</MenuItem>)}
           </Select>
-        </FormControl> : <BallLoader/>}
+        </FormControl>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', marginBottom: 2 }}>
         <Button 

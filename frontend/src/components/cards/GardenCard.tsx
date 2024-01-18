@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
-import { formatDate } from '../../utils/Common'
+import { formatDate, CommunityGarden } from '../../utils/Common'
 import ROUTES from '../../Routes'
 import { useNavigate } from 'react-router-dom';
 import goSign from '../assets/images/GoSign.png';
@@ -17,7 +17,7 @@ interface GardenCardProps {
     lotNr: number,
     name: string,
     reports?: Report[],
-    gardenName?: string,
+    garden?: CommunityGarden,
     date: Date,
     issues: number,
     getReports: (lotNr: number) => Promise<void>,
@@ -39,7 +39,7 @@ function GardenCard(props: GardenCardProps) {
                         {`#${props.lotNr.toString().padStart(4, '0')}`}
                     </Typography>
                     <Typography sx={{ mb: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} color='text.secondary'>
-                        {props.gardenName || '\u00A0'}
+                        {props.garden || '\u00A0'}
                     </Typography>
                     <Divider sx={{marginBottom: 1.5}}/>
                     <Typography sx={{ mb: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} color='text.secondary'>

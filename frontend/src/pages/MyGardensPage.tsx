@@ -116,8 +116,8 @@ function MyGardensPage() {
         setMessageLot('');
     }
 
-    const handleGardenConfirm = async (lotName: string, communityGardenId: string) => {
-        const lot = { name: lotName, garden: communityGardenId === '' ? undefined : communityGardenId };
+    const handleGardenConfirm = async (lotName: string, communityGarden: string) => {
+        const lot = { name: lotName, garden: communityGarden === '' ? undefined : communityGarden };
         await api.post('lot', {
             body: JSON.stringify(lot),
             headers: {
@@ -148,15 +148,15 @@ function MyGardensPage() {
                 <AddGardenButton onClick={() => {setGardenDialogOpen(true);}}/>
             </div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-2 sm:grid-cols-2 mt-8 mb-8'>
-                {lots.map((element, index) => {
+                {lots.map((lot, index) => {
                     return <GardenCard 
                         key={index} 
-                        lotNr={element.nr} 
-                        name={element.name} 
-                        reports={element.reports} 
-                        issues={element.issues || 0} 
-                        date={new Date(element.timestamp)} 
-                        gardenName={element.garden?.name} 
+                        lotNr={lot.nr} 
+                        name={lot.name} 
+                        reports={lot.reports} 
+                        issues={lot.issues || 0} 
+                        date={new Date(lot.timestamp)} 
+                        garden={lot.garden} 
                         openMessage={openMessageDialog} 
                         getReports={getReports} 
                         viewReports={viewReports}

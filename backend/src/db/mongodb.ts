@@ -8,11 +8,13 @@ export function connect() {
 }
 
 export enum ReportCategory {
-    MESSAGE = 'message',
-    WATER = 'water',
-    PEST = 'pest',
-    HARVEST = 'harvest',
-}
+    MESSAGE = 'Message',
+    WATER = 'Water',
+    HARVEST = 'Harvest',
+    PRUNE = 'Prune',
+    FERTILIZE = 'Fertilize',
+    PEST = 'Pest'
+};
 
 export type Report = {
     _id: mongoose.ObjectId,
@@ -37,29 +39,27 @@ export const Report = mongoose.model<Report>('Reports', new mongoose.Schema({
     }
 }));
 
-export type Garden = {
-    _id: mongoose.ObjectId,
-    name: string
-}
-
-export const Garden = mongoose.model<Garden>('Gardens', new mongoose.Schema({
-    name: { type: String, required: true}
-}));
-
+export enum CommunityGarden {
+    ZAK_BEWOHNERGARTEN = 'ZAK Bewohnergarten',
+    ZAK_KINDERGARTEN = 'ZAK Kindergarten',
+    KRAEUTERGARTEN_RMD = 'Kräutergarten Strehleranger',
+    MIETERGARTEN_WSB = 'Mietergarten Karl-Marx-Allee',
+    COMMUNITY_KITCHEN = 'Community Kitchen',
+    KRAEUTERGARTEN_LTK = 'Kräutergarten Lätarekirche'
+};
 
 export type Lot = {
     _id: mongoose.ObjectId,
     nr: number,
     owner: mongoose.ObjectId | User,
-    garden: mongoose.ObjectId | Garden,
+    garden: CommunityGarden,
     name: string,
     timestamp: number
 };
-
 export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({
     nr: { type: Number, required: true, unique: true },
     owner: { type: mongoose.Types.ObjectId, ref: 'Users', required: true },
-    garden: { type: mongoose.Types.ObjectId, ref: "Gardens", requried: false},
+    garden: { type: String, enum: Object.values(CommunityGarden), required: false },
     name: { type: String, required: true },
     timestamp: { type: Number, required: true }
 }, {
@@ -70,7 +70,6 @@ export const Lot = mongoose.model<Lot>('Lots', new mongoose.Schema({
         }
     }
 }));
-
 
 export type Counter = {
     _id: mongoose.ObjectId,
