@@ -1,6 +1,7 @@
 import { OAuth2Client } from 'google-auth-library';
 import * as nodemailer from 'nodemailer';
 import { Report } from '../db/mongodb';
+import { createHeader, createBody } from './utils';
 
 class AuthClient {
     private static instance: AuthClient | null = null;
@@ -27,28 +28,46 @@ class AuthClient {
 }
 
 export async function sendEmail(receiver: string, report: Report) {
-    const authClient = AuthClient.getInstance();
-    const accessToken = await authClient.getAccessToken();
+    let accessToken;
+    try {
+        const authClient = AuthClient.getInstance();
+        accessToken = await authClient.getAccessToken();
+    } catch (e) {
+        console.error('Failed to fetch email access token:', e);
+        return;
+    }
 
-    const transport = nodemailer.createTransport({
-        service: 'gmail',
-        secure: true,
-        auth: {
-            type: 'OAuth2',
-            user: process.env.GMAIL_USER,
-            clientId: process.env.GMAIL_CLIENT_ID,
-            clientSecret: process.env.GMAIL_CLIENT_SECRET,
-            refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-            accessToken: accessToken
-        }
-    } as nodemailer.TransportOptions);
+    let transport;
+    try {
+        transport = nodemailer.createTransport({
+            service: 'gmail',
+            secure: true,
+            auth: {
+                type: 'OAuth2',
+                user: process.env.GMAIL_USER,
+                clientId: process.env.GMAIL_CLIENT_ID,
+                clientSecret: process.env.GMAIL_CLIENT_SECRET,
+                refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+                accessToken: accessToken
+            }
+        } as nodemailer.TransportOptions);
+    } catch (e) {
+        console.error('Failed to create nodemailer transport:', e);
+        return;
+    }
 
-    const res = await transport.sendMail({
-        from: `Grüne Oase <${process.env.GMAIL_USER}>`,
-        to: receiver,
-        subject: 'New Report',
-        text: 'Hello, a new Report has been created'
-    });
+    let res;
+    try {
+        res = await transport.sendMail({
+            from: `Grüne Oase <${process.env.GMAIL_USER}>`,
+            to: receiver,
+            subject: createHeader(report),
+            text: createBody(report)
+        });
+    } catch (e) {
+        console.error('Failed to send email:', e);
+        return;
+    }
 
     return res;
 }

@@ -8,29 +8,18 @@ userRouter.get('/', async (req: Request, res: Response) => {
 
     // Check auth
     if (!req.auth)
-        return res.status(403).send();
+        return res.sendStatus(403);
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate([{ path: 'lots', populate: [{path: 'garden'}] }]);
+    let user;
+    try {
+        user = await User.findById(req.auth.userId).populate('lots');
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        res.sendStatus(500);
+    }
     if (!user)
-        return res.status(404).send();
-
-    return res.send({ user: user });
-});
-
-userRouter.patch('/', async (req: Request, res: Response) => {
-    console.log('/user PATCH');
-
-    // Check auth
-    if (!req.auth)
-        return res.status(403).send();
-
-    // Check if user exists
-    const user = await User.findById(req.auth.userId).populate([{ path: 'lots', populate: [{path: 'garden'}] }]);
-    if (!user)
-        return res.status(404).send();
-
-    // Todo: Update user here
+        return res.sendStatus(404);
 
     return res.send({ user: user });
 });

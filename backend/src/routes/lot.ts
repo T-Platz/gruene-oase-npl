@@ -3,15 +3,32 @@ import { Counter, Lot, Report, User } from '../db/mongodb';
 
 async function getLotNrCount(): Promise<number> {
     // Fetch counter from database
-    const counter = await Counter.findOne();
+    let counter;
+    try {
+        counter = await Counter.findOne();
+    } catch (e) {
+        console.error('Failed to fetch counter:', e);
+        return 0;
+    }
+
     if (!counter) {
-        await (new Counter().save());
+        try {
+            await (new Counter().save());
+        } catch (e) {
+            console.error('Failed to create new counter:', e);
+            return 0;
+        }
         return 0;
     }
 
     // Increment counter value and store back
     counter.count++;
-    await counter.save();
+    try {
+        await counter.save();
+    } catch (e) {
+        console.error('Failed to store counter:', e);
+        return 0;
+    }
 
     return counter.count;
 }
@@ -46,7 +63,13 @@ lotRouter.get('/issues', async (req: Request, res: Response) => {
         return res.status(403).send();
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate('lots');
+    let user;
+    try {
+        user = await User.findById(req.auth.userId).populate('lots');
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        return res.sendStatus(500);
+    }
     if (!user)
         return res.sendStatus(404);
 
@@ -56,7 +79,13 @@ lotRouter.get('/issues', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Find number of new reports
-    const issues = await Report.countDocuments({ lotNr: lotNr, viewed: false });
+    let issues;
+    try {
+        issues = await Report.countDocuments({ lotNr: lotNr, viewed: false });
+    } catch (e) {
+        console.error('Failed to count issues:', e);
+        return res.sendStatus(500);
+    }
     return res.send({ issues: issues });
 });
 
@@ -68,7 +97,13 @@ lotRouter.get('/reports', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate('lots');
+    let user;
+    try {
+        user = await User.findById(req.auth.userId).populate('lots');
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        return res.sendStatus(500);
+    }
     if (!user)
         return res.sendStatus(404);
 
@@ -78,7 +113,13 @@ lotRouter.get('/reports', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Find and send all reports for this lot
-    const reports = await Report.find({ lotNr: lotNr });
+    let reports;
+    try {
+        reports = await Report.find({ lotNr: lotNr });
+    } catch (e) {
+        console.error('Failed to fetch reports:', e);
+        res.sendStatus(500);
+    }
     return res.send({ reports: reports });
 });
 
@@ -90,23 +131,35 @@ lotRouter.post('/', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId);
+    let user;
+    try {
+        user = await User.findById(req.auth.userId);
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        return res.sendStatus(500);
+    }
     if (!user)
         return res.sendStatus(404);
 
 
     // Create a new lot and add it to the user in the database
     const lotNr = generateLotNr(await getLotNrCount());
-    const lot = new Lot({
-        nr: lotNr,
-        owner: user._id,
-        garden: req.body.garden,
-        name: req.body.name,
-        timestamp: +new Date()
-    });
-    await lot.save();
-    user.lots.push(lot._id);
-    await user.save();
+    let lot;
+    try {
+        lot = new Lot({
+            nr: lotNr,
+            owner: user._id,
+            garden: req.body.garden,
+            name: req.body.name,
+            timestamp: +new Date()
+        });
+        await lot.save();
+        user.lots.push(lot._id);
+        await user.save();
+    } catch (e) {
+        console.error('Failed to store lot:', e);
+        return res.sendStatus(500);
+    }
 
     return res.send({ lot: lot });
 });
@@ -119,7 +172,13 @@ lotRouter.post('/view', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Check if user exists
-    const user = await User.findById(req.auth.userId).populate('lots');
+    let user;
+    try {
+        user = await User.findById(req.auth.userId).populate('lots');
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        return res.sendStatus(500);
+    }
     if (!user)
         return res.sendStatus(404);
 
@@ -129,12 +188,17 @@ lotRouter.post('/view', async (req: Request, res: Response) => {
         return res.sendStatus(403);
 
     // Set the viewed boolean for all reports to true
-    await Report.updateMany({
-        lotNr: req.query.lotNr,
-        viewed: false
-    }, {
-        $set: { viewed: true }
-    });
+    try {
+        await Report.updateMany({
+            lotNr: req.query.lotNr,
+            viewed: false
+        }, {
+            $set: { viewed: true }
+        });
+    } catch (e) {
+        console.error('Failed to update reports:', e);
+        return res.sendStatus(500);
+    }
 
     return res.send();
 });

@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 
 export function connect() {
-    if (process.env.MONGODB_URI)
-        mongoose.connect(process.env.MONGODB_URI).then(_ => console.log('Connected to db'));
-    else
+    if (process.env.MONGODB_URI) {
+        try {
+            mongoose.connect(process.env.MONGODB_URI).then(_ => console.log('Connected to db'));
+        } catch (e) {
+            console.error('Failed to connect to database:', e);
+        }
+    } else {
         console.error('MongoDB URL is missing');
+    }
 }
 
 export enum ReportCategory {
