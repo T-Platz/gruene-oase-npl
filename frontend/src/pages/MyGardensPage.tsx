@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
 import GardenCard from '../components/cards/GardenCard';
-import AddGardenButton from '../components/buttons/AddGardenButton';
 import AllNotifications from '../components/other/AllNotifications';
 import { useEffect, useState } from 'react';
 import MessageDialog from '../components/dialogs/MessageDialog';
@@ -14,6 +13,8 @@ import api from '../utils/ApiService';
 import BallLoader from '../components/loaders/BallLoader';
 import { IssuesResponse, Lot, ReportsResponse, UserResponse } from '../utils/Types';
 import { setUser } from '../redux/userSlice';
+import GrueneOaseButton from '../components/buttons/GrueneOaseButton';
+import { AddSharp } from '@mui/icons-material';
 
 function MyGardensPage() {
     const [messageDialogOpen, setMessageDialogOpen] = useState<boolean>(false);
@@ -145,7 +146,7 @@ function MyGardensPage() {
                     <Typography variant={width >= 640 ? 'h3': 'h4'} color='#057038'>Meine Gärten</Typography>
                     <AllNotifications number={totalIssues}/>
                 </div>
-                <AddGardenButton onClick={() => {setGardenDialogOpen(true);}}/>
+                <GrueneOaseButton onClick={() => {setGardenDialogOpen(true);}} text='Hinzufügen' disabled={false} icon={<AddSharp sx={{color: '#057038'}} />}/>
             </div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-2 sm:grid-cols-2 mt-8 mb-8'>
                 {lots.map((lot, index) => {

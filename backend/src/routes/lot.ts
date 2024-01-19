@@ -1,4 +1,6 @@
 import express, { Router, Request, Response } from 'express';
+import QRCode from 'qrcode';
+import PDFDocument from 'pdfkit';
 import { Counter, Lot, Report, User } from '../db/mongodb';
 
 async function getLotNrCount(): Promise<number> {
@@ -51,6 +53,60 @@ function lotNrToPaddedString(lotNr: LotNr): string {
 
 function lotNrsEqual(a: LotNr, b: LotNr): boolean {
     return lotNrToPaddedString(a) === lotNrToPaddedString(b);
+}
+
+async function sendLotSign(lotNr: LotNr, res: Response) {
+    const mmToPx = 2.834645669291339;
+    // Create PDF document
+    const width = 70;
+    const height = 50;
+    const margin = 5;
+    const pdf = new PDFDocument({
+        size: [(width + 2*margin)*mmToPx, (height + 2*margin)*mmToPx],
+    });
+    pdf.scale(mmToPx);
+
+    // Pipe the document to the express response
+    res.setHeader('Content-Type', 'application/pdf');
+    pdf.pipe(res);
+
+    // Add Grüne Oase logo
+    pdf.rect(margin, margin, width, 14).fill('#057038');
+    pdf.image('src/assets/GrüneOaseLogoText.png', 13 + margin, 1 + margin, {
+        height: 12
+    });
+
+    // Add QR code
+    const qrCodeSize = 25;
+    const qrCode = await QRCode.toDataURL(`https://gruene-oase-npl.de/report/${lotNr}`, {
+        margin: 0
+    });
+    pdf.image(qrCode, 3*width/4 - qrCodeSize/2 + margin, height/2 - qrCodeSize/2 + 4 + margin, {
+        width: qrCodeSize,
+        height: qrCodeSize,
+    });
+
+    // Add some text on the side
+    pdf.fontSize(4).fill('#057038');
+    const lines = ['Brauchen diese', 'Pflanzen', 'Zuwendung?'];
+    lines.forEach((line, i) => {
+        const lineWidth = pdf.widthOfString(line);
+        const lineHeight = pdf.heightOfString(line);
+        pdf.text(line, width/4 - lineWidth/2 + margin, height/2 - lineHeight/2 + (i-1)*5 + 4 + margin);
+    });
+
+    // Add lot nr
+    pdf.fontSize(5).fill('black');
+    const lotNrStr = `Garten Nr. ${lotNrToPaddedString(lotNr)}`;
+    const lotNrStrWidth = pdf.widthOfString(lotNrStr);
+    const lotNrStrHeight = pdf.heightOfString(lotNrStr);
+    pdf.text(lotNrStr, width/2 - lotNrStrWidth/2 + margin, height - lotNrStrHeight + margin);
+
+    // Add border
+    pdf.rect(margin, margin, width, height).lineWidth(0.3).stroke();
+
+    // Return combined data
+    pdf.end();
 }
 
 export const lotRouter: Router = express.Router();
@@ -121,6 +177,38 @@ lotRouter.get('/reports', async (req: Request, res: Response) => {
         res.sendStatus(500);
     }
     return res.send({ reports: reports });
+});
+
+lotRouter.get('/sign', async (req: Request, res: Response) => {
+    console.log('/lot/sign GET');
+
+    // Check auth
+    if (!req.auth)
+        return res.sendStatus(403);
+
+    // Check if user exists
+    let user;
+    try {
+        user = await User.findById(req.auth.userId).populate('lots');
+    } catch (e) {
+        console.error('Failed to fetch user:', e);
+        return res.sendStatus(500);
+    }
+    if (!user)
+        return res.sendStatus(404);
+
+    // Check if user owns lot
+    const lotNr = req.query.lotNr as string;
+    if (!lotNr || !user.lots.some(lot => lotNrsEqual((lot as Lot).nr, lotNr)))
+        return res.sendStatus(403);
+
+    // Generate pdf
+    try {
+        await sendLotSign(lotNr, res);
+    } catch (e) {
+        console.error('Failed to generate lot sign:', e);
+        return res.sendStatus(500);
+    }
 });
 
 lotRouter.post('/', async (req: Request, res: Response) => {

@@ -1,13 +1,15 @@
 import { SendSharp } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
+import { ReactElement } from 'react';
 
-interface SendNotificationButtonProps {
-    smallScreen: boolean
+interface GrueneOaseButtonProps {
+    text: string,
+    icon: ReactElement,
     disabled: boolean,
     onClick: () => void
 }
 
-function SendNotificationButton (props: SendNotificationButtonProps) {
+function GrueneOaseButton (props: GrueneOaseButtonProps) {
     return (
         <Button
             disabled={props.disabled}
@@ -15,8 +17,8 @@ function SendNotificationButton (props: SendNotificationButtonProps) {
             sx={{
                 cursor: props.disabled ? 'default' : 'pointer',
                 borderRadius: '20px',
-                paddingY: props.smallScreen ? 1 : 2,
-                paddingX: props.smallScreen ? 2 : 4,
+                paddingY: 1,
+                paddingX: 3,
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
                 backgroundImage: props.disabled? null : 'linear-gradient(135deg, #97d045, #057038)',
                 boxShadow: props.disabled ? null :  '0px 4px 10px rgba(0, 0, 0, 0.25)',
@@ -26,11 +28,11 @@ function SendNotificationButton (props: SendNotificationButtonProps) {
             }}>
             <Box sx={{padding: '6px', backgroundColor: 'white', borderRadius: '50%', // Gives the button rounded corners
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',}}>
-            <SendSharp sx={{ color: props.disabled ? '#c7c7c7' : '#057038' }} />
+            {props.icon}
             </Box>
-            <Typography color={props.disabled ? 'text.secondary' : 'white'} variant='h6' sx={{textTransform: 'none'}}>Senden</Typography>
+            <Typography color={props.disabled ? 'text.secondary' : 'white'} variant='h6' sx={{textTransform: 'none'}}>{props.text}</Typography>
         </Button>
     );
 }
 
-export default SendNotificationButton;
+export default GrueneOaseButton;

@@ -8,7 +8,6 @@ import EditAccountPage from './pages/EditAccountPage';
 import CreateReportPage from './pages/CreateReportPage';
 import PageLayout from './components/layout/PageLayout';
 import ReportCreatedPage from './pages/ReportCreatedPage';
-import SignPage from './pages/SignPage';
 import LoginPage from './pages/LoginScreen';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -39,11 +38,6 @@ function App() {
               key={ROUTES.ACCOUNT}
               path={ROUTES.ACCOUNT}
               element={<PageLayout children={<EditAccountPage/>}/>}
-            />
-            <Route
-              key={ROUTES.GARDEN}
-              path={`${ROUTES.GARDEN}:lotNr`}
-              element={<PageLayout children={<SignPage/>}/>}
             />
             <Route
               key={ROUTES.REPORTCREATED}
