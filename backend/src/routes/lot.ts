@@ -72,13 +72,13 @@ async function sendLotSign(lotNr: LotNr, res: Response) {
 
     // Add Grüne Oase logo
     pdf.rect(margin, margin, width, 14).fill('#057038');
-    pdf.image('src/assets/GrüneOaseLogoText.png', 20 + margin, 1 + margin, {
+    pdf.image('src/assets/GrüneOaseLogoText.png', 13 + margin, 1 + margin, {
         height: 12
     });
 
     // Add QR code
     const qrCodeSize = 25;
-    const qrCode = await QRCode.toDataURL(`http://gruene-oase-npl.de/report/${lotNr}`, {
+    const qrCode = await QRCode.toDataURL(`https://gruene-oase-npl.de/report/${lotNr}`, {
         margin: 0
     });
     pdf.image(qrCode, 3*width/4 - qrCodeSize/2 + margin, height/2 - qrCodeSize/2 + 4 + margin, {

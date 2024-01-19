@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Paper, Typography, FormControlLabel, Checkbox, Box } from '@mui/material';
-import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoText.webp';
+import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoTextWhite.webp';
 import grueneOaseLogo from '../components/assets/images/GrüneOaseLogo.webp';
 import { useWindowDimensions } from 'react-native';
 import { InfoSection, infoDescriptionMap, infoIconMap, infoTitleMap } from '../utils/Common';
