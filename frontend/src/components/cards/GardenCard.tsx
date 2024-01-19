@@ -1,15 +1,17 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material'
-import { formatDate, CommunityGarden } from '../../utils/Common'
-import ROUTES from '../../Routes'
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
+import { formatDate, CommunityGarden } from '../../utils/Common';
 import goSign from '../assets/images/Sign.png';
 import ReportsList from '../lists/ReportsList';
 import { Report } from '../../utils/Types';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useState } from 'react';
+import api from '../../utils/ApiService';
+import BallLoader from '../loaders/BallLoader';
 
 const GrueneOaseSign = () => {
     return (
-        <img className='object-cover h-20' src={goSign}>
-        </img>
+        <img className='object-cover h-20' src={goSign}></img>
     );
 }
 
@@ -26,7 +28,29 @@ interface GardenCardProps {
 }
 
 function GardenCard(props: GardenCardProps) {
-    const navigate = useNavigate();
+    const user = useSelector((state: RootState) => state.user);
+    const [fetchingSign, setFetchingSign] = useState<boolean>(false);
+
+    const fetchSign = async (lotNr: number) => {
+        setFetchingSign(true);
+        let response;
+        try {
+            response = await api.get(`lot/sign?lotNr=${lotNr}`, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+        } catch (e) {
+            alert('Das hat leider nicht geklappt.');
+            return;
+        } finally {
+            setFetchingSign(false);
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+    };
 
     return (
         <Box>
@@ -49,10 +73,10 @@ function GardenCard(props: GardenCardProps) {
                     <ReportsList garden={props.name} issues={props.issues} lotNr={props.lotNr} reports={props.reports} openMessage={props.openMessage} getReports={props.getReports} viewReports={props.viewReports}/>
                 </CardContent>
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <div onClick={() => { navigate(`${ROUTES.GARDEN}${props.lotNr}`); }} className='flex flex-col items-center cursor-pointer'>
-                        <GrueneOaseSign/>
-                        <Button size='small'>Schild anzeigen</Button>
-                    </div>
+                    <Button onClick={() => { fetchSign(props.lotNr) }} className='flex flex-col items-center cursor-pointer'>
+                        { fetchingSign ? <BallLoader/> : <GrueneOaseSign/> }
+                        <Typography color='#057038' style={{ marginTop: '10px' }}>PDF Herunterladen</Typography>
+                    </Button>
                 </CardActions>
             </Card>
         </Box>

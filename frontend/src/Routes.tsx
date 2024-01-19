@@ -3,7 +3,6 @@ const ROUTES = {
     ACCOUNT: '/account',
     FAQ: '/faq',
     GARDENS: '/',
-    GARDEN: '/garten/',
     REPORT: '/report/',
     REPORTCREATED: '/success'
 };
