@@ -75,7 +75,7 @@ function GardenCard(props: GardenCardProps) {
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <Button onClick={() => { fetchSign(props.lotNr) }} className='flex flex-col items-center cursor-pointer'>
                         { fetchingSign ? <BallLoader/> : <GrueneOaseSign/> }
-                        <Typography color='#057038' style={{ marginTop: '10px' }}>PDF Herunterladen</Typography>
+                        <Typography color='#057038' style={{ marginTop: '10px' }}>Schild Herunterladen</Typography>
                     </Button>
                 </CardActions>
             </Card>

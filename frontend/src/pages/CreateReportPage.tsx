@@ -1,4 +1,4 @@
-import { HelpCenterSharp, ReportProblemSharp } from '@mui/icons-material';
+import { HelpCenterSharp, ReportProblemSharp, SendSharp } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,8 +7,9 @@ import ROUTES from '../Routes';
 import { ReportCategory } from '../utils/Common';
 import NotificationCard from '../components/cards/NotificationCard';
 import { useWindowDimensions } from 'react-native';
-import SendNotificationButton from '../components/buttons/SendNotificationButton';
+import SendNotificationButton from '../components/buttons/GrueneOaseButton';
 import api from '../utils/ApiService';
+import GrueneOaseButton from '../components/buttons/GrueneOaseButton';
 
 function CreateReportPage() {
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
@@ -38,6 +39,8 @@ function CreateReportPage() {
         navigate(ROUTES.REPORTCREATED);
     };
 
+    const disabled = selectedCategory === null || (selectedCategory === ReportCategory.MESSAGE && message === '');
+
     return (
         <>
         {isFullyLoaded? 
@@ -50,9 +53,7 @@ function CreateReportPage() {
                         <Typography variant={width >= 640 ? 'h6': 'body1'} sx={{color: gardenExists ? '#97d045' : '#e55523', paddingLeft:  width >= 640 ? '8px' : null}}>{gardenExists? 'Teilen Sie die Probleme mit diesem Garten mit oder geben Sie Tipps!' : 'Dieser Garten existert nicht.'}</Typography>
                     </div>
                 </div>
-                <SendNotificationButton smallScreen={width < 640} disabled={
-                    selectedCategory === null || (selectedCategory === ReportCategory.MESSAGE && message === '')
-                } onClick={() => {createReport();}}/>
+                <GrueneOaseButton disabled={disabled} onClick={() => {createReport();}} text='Senden' icon={<SendSharp sx={{ color: disabled ? '#c7c7c7' : '#057038' }} />}/>
             </div>
             <div className='mt-8 mb-8'>
                 {Object.values(ReportCategory).map(category => {
