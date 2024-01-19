@@ -86,7 +86,7 @@ authRouter.post('/register', async (req: Request, res: Response) => {
             passwordhash: passwordhash,
             notify: req.body.notify
         });
-        newUser.save();
+        await newUser.save();
     } catch (e) {
         console.error('Failed to store new user:', e);
         return res.sendStatus(500);
