@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Paper, Typography, FormControlLabel, Checkbox, Box } from '@mui/material';
-import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoTextWhite.webp';
+import grueneOaseLogoText from '../components/assets/images/GrüneOaseLogoText.webp';
+import grueneOaseLogoTextWhite from '../components/assets/images/GrüneOaseLogoTextWhite.webp';
 import grueneOaseLogo from '../components/assets/images/GrüneOaseLogo.webp';
 import { useWindowDimensions } from 'react-native';
 import { InfoSection, infoDescriptionMap, infoIconMap, infoTitleMap } from '../utils/Common';
@@ -9,16 +10,6 @@ import ROUTES from '../Routes';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import api from '../utils/ApiService';
-
-interface GrueneOaseLogoProps {
-    showText: boolean
-}
-
-const GrueneOaseLogo = (props: GrueneOaseLogoProps) => {
-    return (
-        <img className='object-cover h-28' src={props.showText ? grueneOaseLogoText : grueneOaseLogo}/>
-    )
-}
 
 interface InfoBoxProps {
     section: InfoSection
@@ -91,7 +82,7 @@ const LoginScreen: React.FC = () => {
       {width >= 640 ?
       <div className='flex flex-col w-3/5 bg-cover bg-center bg-go-login'>
         <div className={`bg-goDark bg-opacity-80 text-white text-xl p-4 ${width <1920 ? 'flex items-center justify-center' : ''}`}>
-          <GrueneOaseLogo showText={width >= 840}/>
+          <img className='object-cover h-28' src={width >= 840 ? grueneOaseLogoTextWhite : grueneOaseLogo}/>
         </div>
         <div className='flex-grow'></div>
         <div className='bg-goDark bg-opacity-80 text-white grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-1'>
