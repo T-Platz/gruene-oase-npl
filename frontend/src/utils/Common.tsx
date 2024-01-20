@@ -36,7 +36,7 @@ export const iconMap: { [key in ReportCategory]: ReactNode } = {
 };
 export const textMap: { [key in ReportCategory]: string } = {
     [ReportCategory.MESSAGE]: 'Nachricht',
-    [ReportCategory.WATER]: 'Pfalnze gießen',
+    [ReportCategory.WATER]: 'Pflanze gießen',
     [ReportCategory.HARVEST]: 'Bereit für die Ernte',
     [ReportCategory.PRUNE]: 'Pflanze trimmen',
     [ReportCategory.FERTILIZE]: 'Planze düngen',
