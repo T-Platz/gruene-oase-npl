@@ -2,12 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
-    "copy-assets": "copyfiles src/assets/**/* dist",
+    "copy-assets": "copyfiles -u 1 src/assets/**/* dist",
     "build": "npx tsc && npm run copy-assets",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\" \"npm run copy-assets\""
+    "dev": "concurrently \"npx tsc --watch\" \"npm run copy-assets\" \"nodemon -q dist/index.js\""
   },
   "keywords": [],
   "author": "",

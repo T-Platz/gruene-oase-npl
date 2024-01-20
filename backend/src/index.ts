@@ -2,11 +2,11 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { expressjwt } from 'express-jwt';
-import { authRouter } from './src/routes/auth';
-import { lotRouter } from './src/routes/lot';
-import { userRouter } from './src/routes/user';
-import { reportRouter } from './src/routes/report';
-import { connect } from './src/db/mongodb';
+import { authRouter } from './routes/auth';
+import { lotRouter } from './routes/lot';
+import { userRouter } from './routes/user';
+import { reportRouter } from './routes/report';
+import { connect } from './db/mongodb';
 
 dotenv.config();
 connect();
@@ -35,6 +35,4 @@ app.use('/lot', lotRouter);
 app.use('/user', userRouter);
 app.use('/report', reportRouter);
 
-app.listen(port, () => {
-    console.log(`Backend server is running at http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`Backend server running on port ${port}`));
