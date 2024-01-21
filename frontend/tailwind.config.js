@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'go-background': "url(/background.png)",
-        'go-login': "url(/LoginBackground.jpg)"
+        'go-background': "url(/public/images/Background.png)",
+        'go-login': "url(/public/images/LoginBackground.jpg)"
       }
     },
     colors: {
@@ -25,4 +25,3 @@ module.exports = {
   },
   plugins: [],
 }
-

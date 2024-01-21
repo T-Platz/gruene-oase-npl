@@ -1,6 +1,5 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@mui/material';
 import { formatDate, CommunityGarden } from '../../utils/Common';
-import goSign from '../assets/images/Sign.png';
 import ReportsList from '../lists/ReportsList';
 import { Report } from '../../utils/Types';
 import { useSelector } from 'react-redux';
@@ -11,7 +10,7 @@ import BallLoader from '../loaders/BallLoader';
 
 const GrueneOaseSign = () => {
     return (
-        <img className='object-cover h-20' src={goSign}></img>
+        <img className='object-cover h-20' src='/images/Sign.png'></img>
     );
 }
 

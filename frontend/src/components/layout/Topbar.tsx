@@ -1,8 +1,6 @@
 import { useWindowDimensions } from 'react-native';
 import ROUTES from '../../Routes';
 import { Link, useNavigate } from 'react-router-dom';
-import grueneOaseLogoText from '../assets/images/GrüneOaseLogoText.webp';
-import grueneOaseLogo from '../assets/images/GrüneOaseLogo.webp';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setUser } from '../../redux/userSlice';
@@ -13,7 +11,7 @@ const GrueneOaseLogo = () => {
 
     return (
         <Link to={ROUTES.GARDENS}>
-            <img className='object-cover h-28' src={width >= 800 ? grueneOaseLogoText : grueneOaseLogo}>
+            <img className='object-cover h-28' src={width >= 800 ? '/images/GrüneOaseLogoText.webp' : '/images/GrüneOaseLogo.webp'}>
             </img>
         </Link>
     )
