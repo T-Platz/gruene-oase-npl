@@ -48,17 +48,14 @@ const LoginPage: React.FC = () => {
         //check for valid email format
         const email = data.get('email')?.toString().trimEnd().trimStart()
         const password = data.get('password')?.toString();
-        let noError : boolean =true
-        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email? email : '')) {
+        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email ? email : '')) {
             setEmailError(true);
-            noError = false;
         }
         if (!password || password.length < 6) {
             setPasswordError(true);
-            noError = false;
         }
 
-        if (noError) {
+        if (!emailError && !passwordError) {
             const credentials = {email: email, password: password, notify: getNotifications};
 
             const response = await api.post(register ? 'auth/register' : 'auth/login', {
