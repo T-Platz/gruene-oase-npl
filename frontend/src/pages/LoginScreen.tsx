@@ -45,7 +45,10 @@ const LoginScreen: React.FC = () => {
     try {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         //check for valid email format
+        setEmailError(false);
+        setPasswordError(false);
         const email = data.get('email')?.toString().trimEnd().trimStart()
         const password = data.get('password')?.toString();
         let noError : boolean =true
@@ -57,6 +60,7 @@ const LoginScreen: React.FC = () => {
             setPasswordError(true);
             noError = false;
         }
+
         if (noError) {
             const credentials = {email: email, password: password, notify: getNotifications};
 
@@ -72,7 +76,7 @@ const LoginScreen: React.FC = () => {
             navigate(ROUTES.GARDENS);
         }
     } catch (e) {
-        alert('Login failed.');
+        alert('Das hat leider nicht geklappt.');
     }
   }
 
