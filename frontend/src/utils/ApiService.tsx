@@ -6,7 +6,7 @@ interface ApiConfig extends Options {
 
 const apiConfig: ApiConfig = {
     mode: 'cors',
-    prefixUrl: 'http://localhost:8000',
+    prefixUrl: `http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}`,
     credentials: 'include',
     redirect: 'follow'
 };
