@@ -28,7 +28,11 @@ function CreateReportPage() {
     }, [lotNr]);
 
     const createReport = async () => {
-        const report = {lotNr: lotNr, category: selectedCategory, description: message};
+        const report = {
+            lotNr: lotNr,
+            category: selectedCategory,
+            description: (selectedCategory === ReportCategory.MESSAGE ? message : undefined)
+        };
         api.post('report', {
             body: JSON.stringify(report),
             headers: {
