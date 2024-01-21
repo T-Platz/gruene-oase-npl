@@ -7,7 +7,6 @@ import ROUTES from '../Routes';
 import { ReportCategory } from '../utils/Common';
 import NotificationCard from '../components/cards/NotificationCard';
 import { useWindowDimensions } from 'react-native';
-import SendNotificationButton from '../components/buttons/GrueneOaseButton';
 import api from '../utils/ApiService';
 import GrueneOaseButton from '../components/buttons/GrueneOaseButton';
 

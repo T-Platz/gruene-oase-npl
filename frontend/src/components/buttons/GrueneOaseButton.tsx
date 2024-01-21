@@ -1,4 +1,3 @@
-import { SendSharp } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import { ReactElement } from 'react';
 

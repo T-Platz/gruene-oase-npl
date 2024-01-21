@@ -15,7 +15,7 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.use(cors({
-    origin: `${process.env.FRONTEND_HOST}`,
+    origin: process.env.FRONTEND_HOST,
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
 }));
