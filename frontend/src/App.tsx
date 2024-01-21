@@ -8,7 +8,7 @@ import EditAccountPage from './pages/EditAccountPage';
 import CreateReportPage from './pages/CreateReportPage';
 import PageLayout from './components/layout/PageLayout';
 import ReportCreatedPage from './pages/ReportCreatedPage';
-import LoginPage from './pages/LoginScreen';
+import LoginPage from './pages/LoginPage';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './redux/store';
