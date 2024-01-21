@@ -42,10 +42,10 @@ const LoginPage: React.FC = () => {
     try {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
-        //check for valid email format
         setEmailError(false);
         setPasswordError(false);
+
+        //check for valid email format
         const email = data.get('email')?.toString().trimEnd().trimStart()
         const password = data.get('password')?.toString();
         let noError : boolean =true
@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
             setEmailError(true);
             noError = false;
         }
-        if (password && password.length < 6) {
+        if (!password || password.length < 6) {
             setPasswordError(true);
             noError = false;
         }
