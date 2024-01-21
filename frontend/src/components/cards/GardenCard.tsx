@@ -72,7 +72,7 @@ function GardenCard(props: GardenCardProps) {
                     <ReportsList garden={props.name} issues={props.issues} lotNr={props.lotNr} reports={props.reports} openMessage={props.openMessage} getReports={props.getReports} viewReports={props.viewReports}/>
                 </CardContent>
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <Button onClick={() => { fetchSign(props.lotNr) }} className='flex flex-col items-center cursor-pointer'>
+                    <Button onClick={() => { fetchSign(props.lotNr) }} disabled={fetchingSign} className='flex flex-col items-center cursor-pointer'>
                         { fetchingSign ? <BallLoader/> : <GrueneOaseSign/> }
                         <Typography color='#057038' style={{ marginTop: '10px' }}>Schild Herunterladen</Typography>
                     </Button>
