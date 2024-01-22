@@ -30,8 +30,15 @@ function GardenCard(props: GardenCardProps) {
     const user = useSelector((state: RootState) => state.user);
     const [fetchingSign, setFetchingSign] = useState<boolean>(false);
 
-    const fetchSign = async (lotNr: number) => {
+    const openSign = (lotNr: number) => {
         setFetchingSign(true);
+        const newWindow = window.open();
+        if (newWindow)
+            fetchSign(lotNr).then(url => url && (newWindow.location = url));
+        setFetchingSign(false);
+    }
+
+    const fetchSign = async (lotNr: number): Promise<string | null> => {
         let response;
         try {
             response = await api.get(`lot/sign?lotNr=${lotNr}`, {
@@ -42,13 +49,10 @@ function GardenCard(props: GardenCardProps) {
             });
         } catch (e) {
             alert('Das hat leider nicht geklappt.');
-            return;
-        } finally {
-            setFetchingSign(false);
+            return null;
         }
         const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
+        return URL.createObjectURL(blob);
     };
 
     return (
@@ -72,14 +76,14 @@ function GardenCard(props: GardenCardProps) {
                     <ReportsList garden={props.name} issues={props.issues} lotNr={props.lotNr} reports={props.reports} openMessage={props.openMessage} getReports={props.getReports} viewReports={props.viewReports}/>
                 </CardContent>
                 <CardActions sx={{width: 'full', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <Button onClick={() => { fetchSign(props.lotNr) }} disabled={fetchingSign} className='flex flex-col items-center cursor-pointer'>
+                    <Button onClick={() => { openSign(props.lotNr) }} disabled={fetchingSign} className='flex flex-col items-center cursor-pointer'>
                         { fetchingSign ? <BallLoader/> : <GrueneOaseSign/> }
                         <Typography color='#057038' style={{ marginTop: '10px' }}>Schild Herunterladen</Typography>
                     </Button>
                 </CardActions>
             </Card>
         </Box>
-    )
+    );
 }
 
 export default GardenCard;
